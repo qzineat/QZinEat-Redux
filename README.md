@@ -40,6 +40,10 @@ Each component goes to the corresponding package:
 - [Shyam Rokde](https://github.com/mysgithub)
 - [Gaurav Londhe](https://github.com/londhegaurav)
 
+## Open-source libraries used
+
+- [Butterknife annotation library](http://guides.codepath.com/android/Reducing-View-Boilerplate-with-Butterknife) - View "Injection" library for Android
+
 ## License
 
     Copyright [2016] [Shyam Rokde & Gaurav Londhe]
