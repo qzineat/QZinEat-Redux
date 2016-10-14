@@ -1,7 +1,9 @@
-package com.qe.qzin;
+package com.qe.qzin.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.qe.qzin.R;
 
 public class MainActivity extends AppCompatActivity {
 
