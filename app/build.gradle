@@ -43,5 +43,6 @@ dependencies {
     // misc
     compile "com.jakewharton:butterknife:${butterknifeLibVersion}"          // butterknife
     compile 'org.ocpsoft.prettytime:prettytime:4.0.0.Final'                 // prettytime
+    compile 'com.squareup.picasso:picasso:2.5.2'                            // picasso
 
 }
