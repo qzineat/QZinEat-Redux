@@ -1,5 +1,6 @@
 package com.qe.qzin.activities;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -59,7 +60,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     } else if (id == R.id.nav_send) {
 
+    } else if (id == R.id.nav_login) {
+        Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intentLogin);
     }
+
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);

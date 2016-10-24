@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.qe.qzin"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.qe.qzin">
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".QZinApplication"
@@ -13,13 +16,16 @@
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity">
-        </activity>
+        <activity android:name=".activities.MainActivity"></activity>
+        <activity android:name=".activities.LoginActivity"></activity>
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="qzineat" />
     </application>
 
 </manifest>

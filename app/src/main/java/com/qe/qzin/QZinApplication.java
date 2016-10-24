@@ -3,7 +3,9 @@ package com.qe.qzin;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
+import com.qe.qzin.models.User;
 
 /**
  * Created by Shyam Rokde on 10/14/16.
@@ -35,7 +37,7 @@ public class QZinApplication extends Application {
   private void setupParse(){
     // Register your parse models here
     //--ParseObject.registerSubclass(Message.class);
-
+    ParseObject.registerSubclass(User.class);
 
     // Parse initialize
     Parse.initialize(new Parse.Configuration.Builder(this)

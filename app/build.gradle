@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
 
 android {
     compileSdkVersion 24
@@ -42,6 +44,7 @@ dependencies {
 
     // misc
     compile "com.jakewharton:butterknife:${butterknifeLibVersion}"          // butterknife
+    apt "com.jakewharton:butterknife-compiler:${butterknifeLibVersion}"
     compile 'org.ocpsoft.prettytime:prettytime:4.0.0.Final'                 // prettytime
     compile 'com.squareup.picasso:picasso:2.5.2'                            // picasso
 
