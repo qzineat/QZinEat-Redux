@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity"></activity>
-        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.LoginSignupActivity"></activity>
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="qzineat" />

@@ -1,19 +1,27 @@
 package com.qe.qzin.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.parse.ParseAnonymousUtils;
+import com.parse.ParseUser;
 import com.qe.qzin.R;
+
+import static com.qe.qzin.R.id.nav_view;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+  private boolean isUserRegistered = false;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -28,8 +36,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     drawer.addDrawerListener(toggle);
     toggle.syncState();
 
-    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    NavigationView navigationView = (NavigationView) findViewById(nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+
+    // Determine whether the current user is an anonymous user
+    if(ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())){
+      // If user is anonymous, send the user to LoginSignupActivity
+      isUserRegistered = false;
+      Intent intentLoginSignup = new Intent(MainActivity.this, LoginSignupActivity.class);
+      startActivity(intentLoginSignup);
+      finish();
+    }else{
+      //user is not anonymous
+      //get the current user from Parse
+      ParseUser currentUser = ParseUser.getCurrentUser();
+      Log.d("DEBUG","Current User: "+ currentUser.getUsername());
+      if(currentUser != null) {
+        // send logged in user to home page
+        isUserRegistered = true;
+        Toast.makeText(getApplicationContext(),"Current User session", Toast.LENGTH_SHORT).show();
+      }else{
+        //send user to LoginSignupActivity
+        isUserRegistered = false;
+        Intent intentLoginSignup = new Intent(MainActivity.this, LoginSignupActivity.class);
+        startActivity(intentLoginSignup);
+        finish();
+      }
+
+    }
+
   }
 
   @Override
@@ -61,13 +96,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     } else if (id == R.id.nav_send) {
 
     } else if (id == R.id.nav_login) {
-        Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intentLogin);
-    }
+      Intent intentLoginSignup = new Intent(MainActivity.this, LoginSignupActivity.class);
+      startActivity(intentLoginSignup);
+      finish();
+    } else if (id == R.id.nav_logout){
 
+    }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
   }
+
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+
+    NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+    Menu menuNav = navView.getMenu();
+    MenuItem login = menuNav.findItem(R.id.nav_login);
+    MenuItem logout = menuNav.findItem(R.id.nav_logout);
+
+    // if user already registered and logged in show Logout option in navigation menu
+    // if user not logged in show Login option in navigation menu
+    login.setVisible(!isUserRegistered);
+    logout.setVisible(isUserRegistered);
+
+    return true;
+  }
+
+
 }
