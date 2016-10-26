@@ -1,5 +1,6 @@
 package com.qe.qzin.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.qe.qzin.models.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginSignupActivity extends AppCompatActivity {
+public class AuthActivity extends AppCompatActivity {
 
   @BindView(R.id.etUserName) EditText etUserName;
   @BindView(R.id.etPassword) EditText etPassword;
@@ -27,7 +28,7 @@ public class LoginSignupActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_loginsignup);
+    setContentView(R.layout.activity_auth);
 
     ButterKnife.bind(this);
 
@@ -61,7 +62,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             if (e == null) {
               Toast.makeText(getApplicationContext(), "Successfully signed up, Please log in.", Toast.LENGTH_SHORT).show();
             } else {
-              Toast.makeText(getApplicationContext(), "Sign up Error", Toast.LENGTH_SHORT).show();
+              Toast.makeText(getApplicationContext(), "Sign up Error. UserName exists", Toast.LENGTH_SHORT).show();
               e.printStackTrace();
             }
 
@@ -84,6 +85,8 @@ public class LoginSignupActivity extends AppCompatActivity {
 
           if (user != null) {
             Toast.makeText(getApplicationContext(),"Successfully Logged in !", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(AuthActivity.this, MainActivity.class);
+            startActivity(i);
           }
           else {
             e.printStackTrace();
