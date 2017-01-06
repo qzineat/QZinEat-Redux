@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.parse.ParseUser;
 import com.qe.qzin.R;
@@ -19,7 +18,7 @@ import static com.qe.qzin.R.id.nav_view;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-  private boolean isUserRegistered = false;
+  private boolean isLoggedIn = false;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -38,18 +37,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     navigationView.setNavigationItemSelectedListener(this);
 
     //get the current user from Parse
-     ParseUser currentUser = ParseUser.getCurrentUser();
-     // Log.d("DEBUG","Current User: "+ currentUser.getUsername());
+    ParseUser currentUser = ParseUser.getCurrentUser();
+
       if(currentUser != null) {
-        // send logged in user to home page
-        isUserRegistered = true;
-        Toast.makeText(getApplicationContext(),"Current User session", Toast.LENGTH_SHORT).show();
-      }else{
-        //send user to AuthActivity
-        isUserRegistered = false;
-        Intent intentLoginSignup = new Intent(MainActivity.this, AuthActivity.class);
-        startActivity(intentLoginSignup);
-        finish();
+        isLoggedIn = true;
+      }
+      else{
+        isLoggedIn = false;
       }
 
   }
@@ -86,12 +80,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
       Intent intentLoginSignup = new Intent(MainActivity.this, AuthActivity.class);
       startActivity(intentLoginSignup);
-      finish();
+      //finish();
     } else if (id == R.id.nav_logout){
 
       ParseUser.logOut();
-      isUserRegistered = false;
-      setLoginLogoutOptionInNavMenu(isUserRegistered);
+      isLoggedIn = false;
+      setLoginLogoutOptionInNavMenu(isLoggedIn);
 
     }
 
@@ -104,22 +98,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
 
-   setLoginLogoutOptionInNavMenu(isUserRegistered);
+   setLoginLogoutOptionInNavMenu(isLoggedIn);
     return true;
   }
 
 
   // if user already registered and logged in show Logout option in navigation menu
   // if user not logged in show Login option in navigation menu
-  public void setLoginLogoutOptionInNavMenu(boolean isUserRegistered)
+  public void setLoginLogoutOptionInNavMenu(boolean isLoggedIn)
   {
     NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
     Menu menuNav = navView.getMenu();
     MenuItem login = menuNav.findItem(R.id.nav_login);
     MenuItem logout = menuNav.findItem(R.id.nav_logout);
 
-    login.setVisible(!isUserRegistered);
-    logout.setVisible(isUserRegistered);
+    login.setVisible(!isLoggedIn);
+    logout.setVisible(isLoggedIn);
   }
 
 }

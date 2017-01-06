@@ -12,5 +12,7 @@
     <string name="etPassword">Password</string>
     <string name="btnLogin">Log In</string>
     <string name="btnSignUp">Sign Up</string>
+    <string name="facebook_app_id">1761047824221554</string>
+  <string name="btnLoginFacebook">Facebook Login</string>
 
 </resources>

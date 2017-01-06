@@ -9,6 +9,7 @@ import com.parse.ParseUser;
 public class User extends ParseUser {
 
 
+
     private String phone ;
 
     public User() {

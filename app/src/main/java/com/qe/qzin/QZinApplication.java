@@ -2,7 +2,10 @@ package com.qe.qzin;
 
 import android.app.Application;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
 import com.qe.qzin.models.User;
@@ -17,9 +20,14 @@ public class QZinApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
+
     // Parse Setup
     setupParse();
+
+    FacebookSdk.sdkInitialize(getApplicationContext());
+    AppEventsLogger.activateApp(this);
   }
+
 
 
   /**
@@ -46,5 +54,9 @@ public class QZinApplication extends Application {
         .addNetworkInterceptor(new ParseLogInterceptor())
         .server("https://qzin.herokuapp.com/parse/")
         .build());
+
+    // ParseFacebookUtils should initialize the Facebook SDK
+    ParseFacebookUtils.initialize(this);
+
   }
 }

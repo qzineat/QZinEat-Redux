@@ -41,4 +41,10 @@
         android:id="@+id/btnSignup"
         android:text="@string/btnSignUp" />
 
+    <Button
+        android:text="@string/btnLoginFacebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnFBLogin"/>
+
 </LinearLayout>
