@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.qe.qzin"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.qe.qzin">
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:name=".QZinApplication"
@@ -13,13 +17,28 @@
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity">
-        </activity>
+        <activity android:name=".activities.MainActivity"></activity>
+        <activity android:name=".activities.AuthActivity"></activity>
+        <activity android:name="com.facebook.FacebookActivity"
+                android:configChanges=
+                    "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                android:label="@string/app_name" />
+
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="qzineat" />
+        <meta-data
+          android:name="com.facebook.sdk.ApplicationId"
+          android:value= "@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.PERMISSIONS"
+            android:value="email"/>
     </application>
 
 </manifest>

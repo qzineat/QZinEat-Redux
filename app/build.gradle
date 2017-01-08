@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
 
 android {
     compileSdkVersion 24
@@ -24,6 +26,10 @@ ext {
     butterknifeLibVersion = '8.4.0'
 }
 
+repositories {
+    mavenCentral()              // facebook
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -42,7 +48,15 @@ dependencies {
 
     // misc
     compile "com.jakewharton:butterknife:${butterknifeLibVersion}"          // butterknife
+    apt "com.jakewharton:butterknife-compiler:${butterknifeLibVersion}"
     compile 'org.ocpsoft.prettytime:prettytime:4.0.0.Final'                 // prettytime
     compile 'com.squareup.picasso:picasso:2.5.2'                            // picasso
 
+    //facebook
+    //compile 'com.facebook.android:facebook-android-sdk:[4,5)'               //facebook
+    //compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
+
+    compile 'com.facebook.android:facebook-android-sdk:4.10.0'
+    compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar'
+    compile 'com.parse:parse-android:1.13.1'
 }
