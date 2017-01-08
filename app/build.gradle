@@ -42,7 +42,7 @@ dependencies {
     compile "com.android.support:design:${supportLibVersion}"           // Support Lib
 
     // Parse
-    compile 'com.parse:parse-android:1.13.0'        // Parse
+    compile 'com.parse:parse-android:1.13.1'        // Parse
     compile 'com.parse.bolts:bolts-android:1.4.0'   // Parse Bolts
     compile 'com.parse:parseinterceptors:0.0.2'     // Parse - for logging API calls to LogCat
 
@@ -53,10 +53,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'                            // picasso
 
     //facebook
-    //compile 'com.facebook.android:facebook-android-sdk:[4,5)'               //facebook
-    //compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
-
     compile 'com.facebook.android:facebook-android-sdk:4.10.0'
     compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar'
-    compile 'com.parse:parse-android:1.13.1'
+
 }
