@@ -1,50 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/activity_splash"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_login"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.qe.qzin.activities.AuthActivity"
-    android:orientation="vertical"
-    android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="@dimen/login_marginTop"
-    android:layout_marginLeft="@dimen/login_marginLeft"
-    android:layout_marginRight="@dimen/login_marginRight">
+    android:layout_height="match_parent">
 
-    <EditText
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/etUserName"
-        android:hint="@string/etEmail" />
+        android:layout_height="match_parent"
+        android:background="@drawable/splash_background">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:id="@+id/etPassword"
-        android:hint="@string/etPassword"
-        />
+    </RelativeLayout>
 
-    <Button
-        android:text="@string/btnLogin"
-        android:layout_width="match_parent"
+    <TextView
+        android:text="@string/qzin_eat"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnLogin"
-        android:layout_marginTop="@dimen/login_margin10dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:layout_above="@+id/activity_login"
+        android:id="@+id/textView"
+        android:textSize="36sp"
+        android:typeface="monospace"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/white"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSignup"
-        android:text="@string/btnSignUp" />
+    <LinearLayout
+                  android:id="@+id/activity_login"
+                  android:layout_width="match_parent"
+                  android:layout_height="260dp"
+                  android:orientation="vertical"
+                  android:layout_centerVertical="true"
+                  android:layout_centerHorizontal="true"
+                  android:layout_marginTop="@dimen/login_marginTop"
+                  android:layout_marginLeft="@dimen/login_marginLeft"
+                  android:layout_marginRight="@dimen/login_marginRight">
 
-    <Button
-        android:text="@string/btnLoginFacebook"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnFBLogin"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/etUserName"
+            android:hint="@string/etEmail"/>
 
-</LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:id="@+id/etPassword"
+            android:hint="@string/etPassword"
+            />
+
+        <Button
+            android:text="@string/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLogin"
+            android:layout_marginTop="@dimen/login_margin10dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSignup"
+            android:text="@string/btnSignUp" />
+
+        <Button
+            android:text="@string/btnLoginFacebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFBLogin"/>
+
+    </LinearLayout>
+</RelativeLayout>
+

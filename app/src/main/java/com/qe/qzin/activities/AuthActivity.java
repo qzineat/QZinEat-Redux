@@ -1,5 +1,6 @@
 package com.qe.qzin.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -40,6 +42,10 @@ public class AuthActivity extends AppCompatActivity {
     setContentView(R.layout.activity_auth);
 
     ButterKnife.bind(this);
+
+    getWindow().getDecorView().setSystemUiVisibility(
+        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
     btnLogin.setOnClickListener(mLogInButtonListener);
     btnSignup.setOnClickListener(mSignUpButtonListener);
@@ -76,8 +82,11 @@ public class AuthActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
           @Override
           public void done(ParseException e) {
-
             if (e == null) {
+              // TODO: We should do user verification
+              Intent i = new Intent(AuthActivity.this, MainActivity.class);
+              startActivity(i);
+              finish();
               Toast.makeText(getApplicationContext(), "Successfully signed up, Please log in.", Toast.LENGTH_SHORT).show();
             } else {
               Toast.makeText(getApplicationContext(), "Sign up Error. UserName exists", Toast.LENGTH_SHORT).show();
@@ -107,6 +116,7 @@ public class AuthActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Successfully Logged in !", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(AuthActivity.this, MainActivity.class);
             startActivity(i);
+            finish();
           }
           else {
             e.printStackTrace();
@@ -134,11 +144,15 @@ public class AuthActivity extends AppCompatActivity {
             if(user == null) {
               Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
             }else if(user.isNew()){
+              Intent i = new Intent(AuthActivity.this, MainActivity.class);
+              startActivity(i);
+              finish();
               Log.d("MyApp", "User signed up and logged in through Facebook!");
             }else
             {
               Intent i = new Intent(AuthActivity.this, MainActivity.class);
               startActivity(i);
+              finish();
               Toast.makeText(AuthActivity.this,"Logged In", Toast.LENGTH_SHORT).show();
               Log.d("MyApp", "User logged in through Facebook!");
             }
@@ -149,4 +163,8 @@ public class AuthActivity extends AppCompatActivity {
     }
   };
 
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+  }
 }

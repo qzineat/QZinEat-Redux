@@ -10,6 +10,8 @@ import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
 import com.qe.qzin.models.User;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 /**
  * Created by Shyam Rokde on 10/14/16.
  */
@@ -19,6 +21,12 @@ public class QZinApplication extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
+
+    // Fonts
+    CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+        .setDefaultFontPath("fonts/Roboto-Regular.ttf")
+        .setFontAttrId(R.attr.fontPath)
+        .build());
 
 
     // Parse Setup

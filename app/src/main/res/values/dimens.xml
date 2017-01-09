@@ -6,7 +6,8 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="login_marginTop">170dp</dimen>
+
+    <dimen name="login_marginTop">0dp</dimen>
     <dimen name="login_marginLeft">20dp</dimen>
     <dimen name="login_marginRight">20dp</dimen>
     <dimen name="login_margin10dp">10dp</dimen>
