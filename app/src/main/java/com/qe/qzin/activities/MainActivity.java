@@ -1,5 +1,6 @@
 package com.qe.qzin.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,9 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.parse.ParseUser;
 import com.qe.qzin.R;
+import com.squareup.picasso.Picasso;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.qe.qzin.R.id.nav_view;
 
@@ -39,12 +44,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //get the current user from Parse
     ParseUser currentUser = ParseUser.getCurrentUser();
 
-      if(currentUser != null) {
-        isLoggedIn = true;
-      }
-      else{
-        isLoggedIn = false;
-      }
+    if(currentUser != null) {
+      isLoggedIn = true;
+    }
+    else{
+      isLoggedIn = false;
+    }
+
+    // Event
+    ImageView ivEvent = (ImageView) findViewById(R.id.ivEvent);
+    Picasso.with(getApplicationContext())
+        .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
+        .fit()
+        .into(ivEvent);
+
 
   }
 
@@ -116,4 +129,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     logout.setVisible(isLoggedIn);
   }
 
+
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+  }
 }
