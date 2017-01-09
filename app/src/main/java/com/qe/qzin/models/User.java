@@ -23,4 +23,12 @@ public class User extends ParseUser {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public static boolean isLoggedIn(){
+        ParseUser currentUser = User.getCurrentUser();
+        if(currentUser != null){
+            return true;
+        }
+        return  false;
+    }
 }
