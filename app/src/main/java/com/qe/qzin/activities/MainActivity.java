@@ -6,22 +6,33 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import com.parse.ParseUser;
 import com.qe.qzin.R;
+import com.qe.qzin.adapters.EventsAdapter;
+import com.qe.qzin.listeners.EndlessRecyclerViewScrollListener;
+import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
-import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.qe.qzin.R.id.nav_view;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+  ArrayList<Event> events;
+  EventsAdapter eventsAdapter;
+  @BindView(R.id.rvEvents) RecyclerView rvEvents;
+  private EndlessRecyclerViewScrollListener scrollListener;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +55,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
     // Event
-    ImageView ivEvent = (ImageView) findViewById(R.id.ivEvent);
+   /* ImageView ivEvent = (ImageView) findViewById(R.id.ivEvent);
     Picasso.with(getApplicationContext())
         .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
         .fit()
-        .into(ivEvent);
+        .into(ivEvent);*/
 
+    events = Event.createEventList(5);
+    Log.d("DEBUG", events.toString());
+
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+    eventsAdapter = new EventsAdapter(this,events);
+    rvEvents.setAdapter(eventsAdapter);
+    rvEvents.setLayoutManager(linearLayoutManager);
+
+    scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+      @Override
+      public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+        loadMoreEventData(page);
+      }
+    };
+
+    rvEvents.addOnScrollListener(scrollListener);
+
+    eventsAdapter.notifyItemRangeInserted(eventsAdapter.getItemCount(),events.size());
 
   }
 
@@ -106,4 +135,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     login.setVisible(!User.isLoggedIn());
     logout.setVisible(User.isLoggedIn());
   }
+
+  private ArrayList<Event> loadMoreEventData(int page){
+    // to be implemented
+    //fetch next records from event table in database
+    return null;
+  }
+
 }
