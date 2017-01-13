@@ -56,10 +56,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     NavigationView navigationView = (NavigationView) findViewById(nav_view);
     navigationView.setNavigationItemSelectedListener(this);
 
-
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
-    events = getEventData();
+    events = new ArrayList<Event>();
+
     eventsAdapter = new EventsAdapter(this,events);
     rvEvents.setAdapter(eventsAdapter);
     rvEvents.setLayoutManager(linearLayoutManager);
@@ -72,9 +72,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     };
 
     rvEvents.addOnScrollListener(scrollListener);
-
-    eventsAdapter.notifyItemRangeInserted(eventsAdapter.getItemCount(),events.size());
-
+    loadEventData();
   }
 
   @Override
@@ -132,10 +130,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
   }
 
 
-  private List<Event> getEventData() {
-
-    final List<Event> events = new ArrayList<Event>();
-
+  private void loadEventData() {
     ParseQuery<Event> query = ParseQuery.getQuery("Event");
     query.findInBackground(new FindCallback<Event>() {
       @Override
@@ -143,12 +138,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if(exception == null){
           events.addAll(eventList);
+          eventsAdapter.notifyItemRangeInserted(eventsAdapter.getItemCount(), events.size());
         }
-
       }
     });
-
-    return events;
   }
 
   private ArrayList<Event> loadMoreEventData(int page){

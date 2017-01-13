@@ -95,10 +95,17 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     tvEventTitle.setText(event.getTitle());
     tvLocality.setText(event.getLocality());
-    tvEventDate.setText(event.getDate().toString());
     tvEventDescription.setText(event.getDescription());
-    tvPrice.setText(Double.toString(event.getAmount()));
 
+    int priceInt =  (int) event.getAmount();
+    if(priceInt == event.getAmount()) {
+      tvPrice.setText(priceInt);
+    }else {
+      tvPrice.setText(String.format("%.2f", event.getAmount()));
+    }
+
+    android.text.format.DateFormat df = new android.text.format.DateFormat();
+    tvEventDate.setText(df.format("dd MMM yyyy", event.getDate()));
   }
 
   @Override
