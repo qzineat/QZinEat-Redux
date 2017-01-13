@@ -13,7 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.qe.qzin.R;
 import com.qe.qzin.adapters.EventsAdapter;
 import com.qe.qzin.listeners.EndlessRecyclerViewScrollListener;
@@ -21,6 +25,8 @@ import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +35,7 @@ import static com.qe.qzin.R.id.nav_view;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-  ArrayList<Event> events;
+  List<Event> events;
   EventsAdapter eventsAdapter;
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   private EndlessRecyclerViewScrollListener scrollListener;
@@ -54,17 +60,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     navigationView.setNavigationItemSelectedListener(this);
 
 
-    // Event
-   /* ImageView ivEvent = (ImageView) findViewById(R.id.ivEvent);
-    Picasso.with(getApplicationContext())
-        .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
-        .fit()
-        .into(ivEvent);*/
-
-    events = Event.createEventList(5);
-    Log.d("DEBUG", events.toString());
-
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+    createEventsForTest();
+
+    events = getEventData();
     eventsAdapter = new EventsAdapter(this,events);
     rvEvents.setAdapter(eventsAdapter);
     rvEvents.setLayoutManager(linearLayoutManager);
@@ -136,10 +136,75 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     logout.setVisible(User.isLoggedIn());
   }
 
+
+  private List<Event> getEventData() {
+
+    final List<Event> events = new ArrayList<Event>();
+
+    ParseQuery<Event> query = ParseQuery.getQuery("Event");
+    query.findInBackground(new FindCallback<Event>() {
+      @Override
+      public void done(List<Event> eventList, ParseException exception) {
+
+        if(exception == null){
+          events.addAll(eventList);
+        }
+
+      }
+    });
+
+    return events;
+  }
+
   private ArrayList<Event> loadMoreEventData(int page){
     // to be implemented
     //fetch next records from event table in database
     return null;
+  }
+
+  private void createEventsForTest() {
+
+    Event newEvent = new Event();
+    newEvent.setTitle("Modern Italian Feast");
+    newEvent.setLocality("San Francisco, CA");
+    newEvent.setDate(new Date());
+    newEvent.setDescription("Your culinary journey will include an elegant five-course tasting menu inspired by " +
+        "rustic Northern Italian inspired cuisine married with a creative, modern twist.");
+    newEvent.setAmount(45);
+
+      newEvent.saveInBackground(new SaveCallback() {
+        @Override
+        public void done(ParseException e) {
+          if(e == null)
+            Log.d("DEBUG","New Record Added in Events");
+          else
+            e.printStackTrace();
+        }
+
+      });
+
+/*
+    Event newEvent2 = new Event();
+
+    newEvent2.setTitle("Escape to India");
+    newEvent2.setLocality("Fremont, CA");
+    newEvent2.setDate(new Date());
+    newEvent2.setDescription("Spending our childhood in India, we have grown up eating Indian food prepared by " +
+        "our families. We invite you to experience some of those flavors to understand what true home cooked Indian " +
+        "food tastes like as you embrace tit bits of our culture. Through the journey, we promise to give you insight " +
+        "on the history behind each dish to ensure you have an enriching and holistic experience");
+    newEvent2.setAmount(39);
+
+    newEvent2.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if(e == null)
+          Log.d("DEBUG", "New Record Added in Events");
+        else
+          e.printStackTrace();
+      }
+    });*/
+
   }
 
 }

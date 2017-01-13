@@ -93,11 +93,11 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         .fit()
         .into(ivEvent);
 
-    tvEventTitle.setText(event.getEventTitle());
-    tvLocality.setText(event.getEventLocation());
-    tvEventDate.setText(event.getEventDate().toString());
-    tvEventDescription.setText(event.getEventDescr());
-    //tvPrice.setText(((int) event.getEventPrice()));
+    tvEventTitle.setText(event.getTitle());
+    tvLocality.setText(event.getLocality());
+    tvEventDate.setText(event.getDate().toString());
+    tvEventDescription.setText(event.getDescription());
+    tvPrice.setText(Double.toString(event.getAmount()));
 
   }
 
