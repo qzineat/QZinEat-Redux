@@ -32,10 +32,10 @@ import static com.qe.qzin.R.id.nav_view;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-  List<Event> events;
-  EventsAdapter eventsAdapter;
-  @BindView(R.id.rvEvents) RecyclerView rvEvents;
+  private  List<Event> events;
+  private EventsAdapter eventsAdapter;
   private EndlessRecyclerViewScrollListener scrollListener;
+  @BindView(R.id.rvEvents) RecyclerView rvEvents;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
