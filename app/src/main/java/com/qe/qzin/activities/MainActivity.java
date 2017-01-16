@@ -58,12 +58,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
+    // create events adapter
+    // set adapter on recycleview
     events = new ArrayList<Event>();
-
-    eventsAdapter = new EventsAdapter(this,events);
+    eventsAdapter = new EventsAdapter(this, events);
     rvEvents.setAdapter(eventsAdapter);
     rvEvents.setLayoutManager(linearLayoutManager);
 
+    // load data in recycleview on infinite scrolling
     scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
       @Override
       public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -92,10 +94,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     int id = item.getItemId();
 
     if (id == R.id.nav_login) {
+      // on login click call Auth acivity
       Intent intentLoginSignup = new Intent(MainActivity.this, AuthActivity.class);
       startActivity(intentLoginSignup);
       //finish();
     } else if (id == R.id.nav_logout){
+      // current user log out and navigate to events Stream.
       ParseUser.logOut();
       Intent refresh = new Intent(this, MainActivity.class);
       startActivity(refresh);
@@ -130,7 +134,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
   }
 
 
+  // Read data from Event parse object
+  // Notify adapter about data change in events list
   private void loadEventData() {
+
     ParseQuery<Event> query = ParseQuery.getQuery("Event");
     query.findInBackground(new FindCallback<Event>() {
       @Override

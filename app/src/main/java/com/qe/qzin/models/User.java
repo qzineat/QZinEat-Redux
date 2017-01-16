@@ -17,11 +17,11 @@ public class User extends ParseUser {
     }
 
     public String getPhone() {
-        return phone;
+        return getString("phone");
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.put("phone", phone);
     }
 
     public static boolean isLoggedIn(){

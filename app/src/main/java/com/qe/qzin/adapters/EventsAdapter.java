@@ -3,6 +3,7 @@ package com.qe.qzin.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +23,6 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder>{
 
-/*  ImageView ivEvent;
-  TextView tvEventTitle;
-  TextView tvLocality;
-  TextView tvEventDate;
-  TextView tvEventDescription;
-  ImageView ivShare;
-  TextView tvPrice;*/
-
   public static class ViewHolder extends RecyclerView.ViewHolder{
 
     @BindView(R.id.ivEvent) ImageView ivEvent;
@@ -43,7 +36,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     public ViewHolder(View view) {
       super(view);
-      ButterKnife.bind(this,view);
+      ButterKnife.bind(this, view);
     }
 
   }
@@ -79,33 +72,25 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     Event event = mEvents.get(position);
 
-    ImageView ivEvent = viewHolder.ivEvent;
-    TextView tvEventTitle = viewHolder.tvEventTitle;
-    TextView tvLocality = viewHolder.tvLocality;
-    TextView tvEventDate = viewHolder.tvEventDate;
-    TextView tvEventDescription = viewHolder.tvEventDescription;
-    ImageView ivShare = viewHolder.ivShare;
-    TextView tvPrice = viewHolder.tvPrice;
-
-    // Event
+    // populate the values from above event item
     Picasso.with(getApplicationContext())
         .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
         .fit()
-        .into(ivEvent);
+        .into(viewHolder.ivEvent);
 
-    tvEventTitle.setText(event.getTitle());
-    tvLocality.setText(event.getLocality());
-    tvEventDescription.setText(event.getDescription());
+    viewHolder.tvEventTitle.setText(event.getTitle());
+    viewHolder.tvLocality.setText(event.getLocality());
+    viewHolder.tvEventDescription.setText(event.getDescription());
 
     int priceInt =  (int) event.getAmount();
     if(priceInt == event.getAmount()) {
-      tvPrice.setText(priceInt);
+      viewHolder.tvPrice.setText(String.format("%d", priceInt));
     }else {
-      tvPrice.setText(String.format("%.2f", event.getAmount()));
+      viewHolder.tvPrice.setText(String.format("%.2f", event.getAmount()));
     }
 
-    android.text.format.DateFormat df = new android.text.format.DateFormat();
-    tvEventDate.setText(df.format("dd MMM yyyy", event.getDate()));
+    DateFormat df = new DateFormat();
+    viewHolder.tvEventDate.setText(df.format("dd MMM yyyy", event.getDate()));
   }
 
   @Override

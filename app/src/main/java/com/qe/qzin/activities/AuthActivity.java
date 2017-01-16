@@ -60,6 +60,7 @@ public class AuthActivity extends AppCompatActivity {
     ParseFacebookUtils.onActivityResult(requestCode, resultCode,data);
   }
 
+  // Signup button click
   View.OnClickListener mSignUpButtonListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -100,6 +101,7 @@ public class AuthActivity extends AppCompatActivity {
     }
   };
 
+  // LogIn Button Click
   View.OnClickListener mLogInButtonListener = new View.OnClickListener() {
 
     @Override
@@ -129,6 +131,7 @@ public class AuthActivity extends AppCompatActivity {
   };
 
 
+// Facebook Login
   View.OnClickListener mFBLoginBtnListener = new View.OnClickListener(){
     @Override
     public void onClick(View v) {
