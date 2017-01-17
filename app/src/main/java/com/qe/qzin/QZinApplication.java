@@ -1,15 +1,20 @@
 package com.qe.qzin;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 import com.parse.interceptors.ParseLogInterceptor;
 import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
+
+import java.util.Date;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -35,6 +40,10 @@ public class QZinApplication extends Application {
 
     FacebookSdk.sdkInitialize(getApplicationContext());
     AppEventsLogger.activateApp(this);
+
+
+    // TODO: Remove Test Event Add on DB
+    //createEventForTest();
   }
 
 
@@ -67,5 +76,34 @@ public class QZinApplication extends Application {
     // ParseFacebookUtils should initialize the Facebook SDK
     ParseFacebookUtils.initialize(this);
 
+  }
+
+
+  // TODO: Remove this later
+  private void createEventForTest() {
+    
+    Event event = new Event();
+    event.setTitle("Modern Italian Feast");
+    event.setLocality("San Francisco");
+    event.setAdministrativeArea("CA");
+    event.setDate(new Date());
+    event.setDescription("Your culinary journey will include an elegant five-course tasting menu inspired by " +
+        "rustic Northern Italian inspired cuisine married with a creative, modern twist.");
+    event.setAmount(45);
+
+    if(User.isLoggedIn()){
+      event.setHostUser(User.getCurrentUser());
+    }
+
+    event.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if(e == null)
+          Log.d("DEBUG","New Record Added in Events");
+        else
+          e.printStackTrace();
+      }
+
+    });
   }
 }

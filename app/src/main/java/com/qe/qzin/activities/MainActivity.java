@@ -6,22 +6,36 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.qe.qzin.R;
+import com.qe.qzin.adapters.EventsAdapter;
+import com.qe.qzin.listeners.EndlessRecyclerViewScrollListener;
+import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
-import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.qe.qzin.R.id.nav_view;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+  private  List<Event> events;
+  private EventsAdapter eventsAdapter;
+  private EndlessRecyclerViewScrollListener scrollListener;
+  @BindView(R.id.rvEvents) RecyclerView rvEvents;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +56,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     NavigationView navigationView = (NavigationView) findViewById(nav_view);
     navigationView.setNavigationItemSelectedListener(this);
 
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
-    // Event
-    ImageView ivEvent = (ImageView) findViewById(R.id.ivEvent);
-    Picasso.with(getApplicationContext())
-        .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
-        .fit()
-        .into(ivEvent);
+    // create events adapter
+    // set adapter on recycleview
+    events = new ArrayList<Event>();
+    eventsAdapter = new EventsAdapter(this, events);
+    rvEvents.setAdapter(eventsAdapter);
+    rvEvents.setLayoutManager(linearLayoutManager);
 
+    // load data in recycleview on infinite scrolling
+    scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+      @Override
+      public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+        loadEventData();
+      }
+    };
 
+    rvEvents.addOnScrollListener(scrollListener);
+    loadEventData();
   }
 
   @Override
@@ -70,10 +94,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     int id = item.getItemId();
 
     if (id == R.id.nav_login) {
+      // on login click call Auth acivity
       Intent intentLoginSignup = new Intent(MainActivity.this, AuthActivity.class);
       startActivity(intentLoginSignup);
       //finish();
     } else if (id == R.id.nav_logout){
+      // current user log out and navigate to events Stream.
       ParseUser.logOut();
       Intent refresh = new Intent(this, MainActivity.class);
       startActivity(refresh);
@@ -106,4 +132,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     login.setVisible(!User.isLoggedIn());
     logout.setVisible(User.isLoggedIn());
   }
+
+
+  // Read data from Event parse object
+  // Notify adapter about data change in events list
+  //to be updated for pagination and endless scrolling
+  private void loadEventData() {
+
+    ParseQuery<Event> query = ParseQuery.getQuery("Event");
+    query.findInBackground(new FindCallback<Event>() {
+      @Override
+      public void done(List<Event> eventList, ParseException exception) {
+
+        if(exception == null){
+          events.addAll(eventList);
+          eventsAdapter.notifyItemRangeInserted(eventsAdapter.getItemCount(), events.size());
+        }
+      }
+    });
+  }
+
 }
