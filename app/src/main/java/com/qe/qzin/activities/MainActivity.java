@@ -69,12 +69,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
       @Override
       public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-        loadEventData();
+        loadEventData(page);
       }
     };
 
     rvEvents.addOnScrollListener(scrollListener);
-    loadEventData();
+    loadEventData(0);
   }
 
   @Override
@@ -136,10 +136,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
   // Read data from Event parse object
   // Notify adapter about data change in events list
-  //to be updated for pagination and endless scrolling
-  private void loadEventData() {
+  // pagination and endless scrolling
+  private void loadEventData(int offset) {
 
+    int displayLimit = 5;
     ParseQuery<Event> query = ParseQuery.getQuery("Event");
+    query.setLimit(displayLimit);
+    query.setSkip(offset * displayLimit);
+
     query.findInBackground(new FindCallback<Event>() {
       @Override
       public void done(List<Event> eventList, ParseException exception) {
