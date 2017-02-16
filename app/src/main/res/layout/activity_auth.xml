@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_splash"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivSplashBag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,6 +19,7 @@
         android:background="@drawable/splash_background">
 
     </RelativeLayout>
+
 
     <TextView
         android:text="@string/qzin_eat"
@@ -29,7 +37,7 @@
     <LinearLayout
                   android:id="@+id/activity_login"
                   android:layout_width="match_parent"
-                  android:layout_height="260dp"
+                  android:layout_height="350dp"
                   android:orientation="vertical"
                   android:layout_centerVertical="true"
                   android:layout_centerHorizontal="true"
@@ -38,39 +46,82 @@
                   android:layout_marginRight="@dimen/login_marginRight">
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/etUserName"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/etUserName"
-            android:hint="@string/etEmail"/>
+            android:hint="@string/etEmail"
+            android:typeface="monospace"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:id="@+id/etPassword"
+            android:inputType="textPassword"
             android:hint="@string/etPassword"
-            />
+            android:typeface="monospace"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
         <Button
-            android:text="@string/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnLogin"
-            android:layout_marginTop="@dimen/login_margin10dp"/>
+            android:text="@string/btnLogin"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:typeface="monospace"
+            android:background="@drawable/roundshape_btn"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_marginTop="@dimen/login_margin10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvTextOr"
+            android:text="Or"
+            android:textStyle="bold"
+            android:layout_marginLeft="100dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFBLogin"
+            android:text="@string/btnLoginFacebook"
+            android:drawableLeft="@drawable/com_facebook_button_icon_blue"
+            android:background="@drawable/roundshape_btn"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:typeface="monospace"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvSignUp"
+            android:layout_marginTop="20dp"
+            android:text="@string/signUpText"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnSignup"
-            android:text="@string/btnSignUp" />
-
-        <Button
-            android:text="@string/btnLoginFacebook"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnFBLogin"/>
+            android:text="@string/btnSignUp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:typeface="monospace"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/roundshape_btn"
+            android:backgroundTint="@color/lightBlue"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
     </LinearLayout>
 </RelativeLayout>

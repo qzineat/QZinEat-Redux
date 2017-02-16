@@ -10,9 +10,10 @@
 
     <string name="etEmail">Email address</string>
     <string name="etPassword">Password</string>
-    <string name="btnLogin">Log In</string>
+    <string name="btnLogin">Log In with QZinEat</string>
     <string name="btnSignUp">Sign Up</string>
     <string name="facebook_app_id">1761047824221554</string>
-    <string name="btnLoginFacebook">Facebook Login</string>
+    <string name="btnLoginFacebook">Login with Facebook</string>
+    <string name="signUpText">New User? Sign up with entered Email and Password</string>
 
 </resources>

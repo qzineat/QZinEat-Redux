@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -17,6 +18,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.qe.qzin.R;
 import com.qe.qzin.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,8 @@ public class AuthActivity extends AppCompatActivity {
   @BindView(R.id.btnLogin) Button btnLogin;
   @BindView(R.id.btnSignup) Button btnSignup;
   @BindView(R.id.btnFBLogin) Button btnFBLogin;
+  @BindView(R.id.ivSplashBag) ImageView ivSplashBag;
   //List<String> permissions = Arrays.asList("user_birthday", "user_location", "user_friends", "email", "public_profile");
-
 
 
   @Override
@@ -42,6 +44,12 @@ public class AuthActivity extends AppCompatActivity {
     setContentView(R.layout.activity_auth);
 
     ButterKnife.bind(this);
+
+    Picasso.with(getApplicationContext())
+        .load(R.drawable.feast)
+        .fit()
+        .centerCrop()
+        .into(ivSplashBag);
 
     getWindow().getDecorView().setSystemUiVisibility(
         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
