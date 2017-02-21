@@ -8,7 +8,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="login_marginTop">0dp</dimen>
-    <dimen name="login_marginLeft">80dp</dimen>
-    <dimen name="login_marginRight">80dp</dimen>
+    <dimen name="login_marginLeft">20dp</dimen>
+    <dimen name="login_marginRight">20dp</dimen>
     <dimen name="login_margin10dp">10dp</dimen>
 </resources>

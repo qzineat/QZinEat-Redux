@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="50dp"
         android:layout_above="@+id/activity_login"
         android:id="@+id/textView"
         android:textSize="36sp"
@@ -37,7 +37,7 @@
     <LinearLayout
                   android:id="@+id/activity_login"
                   android:layout_width="match_parent"
-                  android:layout_height="350dp"
+                  android:layout_height="wrap_content"
                   android:orientation="vertical"
                   android:layout_centerVertical="true"
                   android:layout_centerHorizontal="true"
@@ -46,37 +46,49 @@
                   android:layout_marginRight="@dimen/login_marginRight">
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:id="@+id/etUserName"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             android:ems="10"
             android:hint="@string/etEmail"
             android:typeface="monospace"
-            android:textAppearance="@style/TextAppearance.AppCompat"/>
+            android:background="@drawable/roundshape_btn"
+            android:backgroundTint="@color/colorWhiteHalo"
+            android:textColor="@color/colorGrayDark"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/etPassword"
             android:inputType="textPassword"
             android:hint="@string/etPassword"
             android:typeface="monospace"
-            android:textAppearance="@style/TextAppearance.AppCompat"/>
+            android:background="@drawable/roundshape_btn"
+            android:backgroundTint="@color/colorWhiteHalo"
+            android:textColor="@color/colorGrayDark"
+            android:layout_marginTop="@dimen/login_margin10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/btnLogin"
             android:text="@string/btnLogin"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:typeface="monospace"
             android:background="@drawable/roundshape_btn"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/light_red"
             android:layout_marginTop="@dimen/login_margin10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -84,32 +96,45 @@
             android:id="@+id/tvTextOr"
             android:text="Or"
             android:textStyle="bold"
-            android:layout_marginLeft="100dp"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/btnFBLogin"
             android:text="@string/btnLoginFacebook"
-            android:drawableLeft="@drawable/com_facebook_button_icon_blue"
+            android:drawableLeft="@drawable/com_facebook_button_icon_white"
+            android:paddingLeft="15dp"
             android:background="@drawable/roundshape_btn"
             android:backgroundTint="@color/blue"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:typeface="monospace"
+            android:layout_marginTop="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvSignUp"
-            android:layout_marginTop="20dp"
-            android:text="@string/signUpText"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+    </LinearLayout>
 
-        <Button
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:id="@+id/tvSignUp"
+        android:text="@string/signUpText"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        />
+
+    <!--  <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnSignup"
@@ -118,11 +143,15 @@
             android:textStyle="bold"
             android:textSize="15sp"
             android:typeface="monospace"
-            android:layout_marginTop="10dp"
             android:background="@drawable/roundshape_btn"
-            android:backgroundTint="@color/lightBlue"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+            android:backgroundTint="@color/light_blue"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"/>
 
-    </LinearLayout>
+            -->
+
+
 </RelativeLayout>
 

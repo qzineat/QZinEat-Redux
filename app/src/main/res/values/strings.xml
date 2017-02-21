@@ -1,19 +1,22 @@
 <resources>
-    <string name="app_name">QZinEat-Redux</string>
-    <string name="qzin_eat">QZin Eat</string>
-    <string name="title_activity_main2">Main2Activity</string>
+  <string name="app_name">QZinEat-Redux</string>
+  <string name="qzin_eat">QZin Eat</string>
+  <string name="title_activity_main2">Main2Activity</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+  <string name="action_settings">Settings</string>
 
-    <string name="etEmail">Email address</string>
-    <string name="etPassword">Password</string>
-    <string name="btnLogin">Log In with QZinEat</string>
-    <string name="btnSignUp">Sign Up</string>
-    <string name="facebook_app_id">1761047824221554</string>
-    <string name="btnLoginFacebook">Login with Facebook</string>
-    <string name="signUpText">New User? Sign up with entered Email and Password</string>
+  <string name="etEmail">Email</string>
+  <string name="etPassword">Password</string>
+  <string name="btnLogin">Log In with QZinEat</string>
+  <string name="btnSignUp">Sign Up</string>
+  <string name="facebook_app_id">1761047824221554</string>
+  <string name="btnLoginFacebook">Log In with Facebook</string>
+  <string name="signUpText"><u>Sign Up</u> for QzinEat</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
