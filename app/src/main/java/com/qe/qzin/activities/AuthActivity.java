@@ -17,6 +17,7 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.qe.qzin.R;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -55,7 +56,9 @@ public class AuthActivity extends AppCompatActivity {
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
     btnLogin.setOnClickListener(mLogInButtonListener);
+
     tvSignup.setOnClickListener(mSignUpListener);
+
     btnFBLogin.setOnClickListener(mFBLoginBtnListener);
 
 
