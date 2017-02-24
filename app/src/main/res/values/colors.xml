@@ -32,6 +32,7 @@
     <color name="blue">#0f68ae</color>
     <color name="light_blue">#039be5</color>
     <color name="light_red">#f45e2f</color>
+    <color name="bgColor">#c7de8418</color>
 
 
 </resources>

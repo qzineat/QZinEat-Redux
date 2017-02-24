@@ -15,7 +15,7 @@
   <string name="facebook_app_id">1761047824221554</string>
   <string name="btnLoginFacebook">Log In with Facebook</string>
   <string name="signUpText"><u>Sign Up</u> for QzinEat</string>
-
+  <string name="etPhone">(xxx)xxx-xxxx</string>
   <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
