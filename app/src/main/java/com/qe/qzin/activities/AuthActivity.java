@@ -8,15 +8,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 import com.qe.qzin.R;
-import com.qe.qzin.models.User;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +32,10 @@ public class AuthActivity extends AppCompatActivity {
   @BindView(R.id.etUserName) EditText etUserName;
   @BindView(R.id.etPassword) EditText etPassword;
   @BindView(R.id.btnLogin) Button btnLogin;
-  @BindView(R.id.btnSignup) Button btnSignup;
+  @BindView(R.id.tvSignUp) TextView tvSignup;
   @BindView(R.id.btnFBLogin) Button btnFBLogin;
+  @BindView(R.id.ivSplashBag) ImageView ivSplashBag;
   //List<String> permissions = Arrays.asList("user_birthday", "user_location", "user_friends", "email", "public_profile");
-
 
 
   @Override
@@ -43,12 +45,20 @@ public class AuthActivity extends AppCompatActivity {
 
     ButterKnife.bind(this);
 
+    Picasso.with(getApplicationContext())
+        .load(R.drawable.feast)
+        .fit()
+        .centerCrop()
+        .into(ivSplashBag);
+
     getWindow().getDecorView().setSystemUiVisibility(
         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
     btnLogin.setOnClickListener(mLogInButtonListener);
-    btnSignup.setOnClickListener(mSignUpButtonListener);
+
+    tvSignup.setOnClickListener(mSignUpListener);
+
     btnFBLogin.setOnClickListener(mFBLoginBtnListener);
 
 
@@ -61,45 +71,18 @@ public class AuthActivity extends AppCompatActivity {
   }
 
   // Signup button click
-  View.OnClickListener mSignUpButtonListener = new View.OnClickListener() {
+  View.OnClickListener mSignUpListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
 
-
-
-      String userNameAsEmail = etUserName.getText().toString();
-      String password = etPassword.getText().toString();
-
-      //Force user to fill up the sign up form.
-      if (userNameAsEmail.equals("") || password.equals("")) {
-        Toast.makeText(getApplicationContext(), "Please complete the sign up form", Toast.LENGTH_SHORT).show();
-      } else {
-
-        User user = new User();
-        user.setUsername(userNameAsEmail);
-        user.setPassword(password);
-        user.setEmail(userNameAsEmail); // set userName as email
-
-        user.signUpInBackground(new SignUpCallback() {
-          @Override
-          public void done(ParseException e) {
-            if (e == null) {
-              // TODO: We should do user verification
-              Intent i = new Intent(AuthActivity.this, MainActivity.class);
-              startActivity(i);
-              finish();
-              Toast.makeText(getApplicationContext(), "Successfully signed up, Please log in.", Toast.LENGTH_SHORT).show();
-            } else {
-              Toast.makeText(getApplicationContext(), "Sign up Error. UserName exists", Toast.LENGTH_SHORT).show();
-              e.printStackTrace();
-            }
-
-          }
-        });
-
-      }
+      Intent i = new Intent(AuthActivity.this, SignUpActivity.class);
+      startActivity(i);
+      finish();
     }
   };
+
+
+
 
   // LogIn Button Click
   View.OnClickListener mLogInButtonListener = new View.OnClickListener() {

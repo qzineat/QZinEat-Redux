@@ -40,6 +40,7 @@ dependencies {
     // Android Support Libraries
     compile "com.android.support:appcompat-v7:${supportLibVersion}"     // Support Lib
     compile "com.android.support:design:${supportLibVersion}"           // Support Lib
+    compile "com.android.support:support-v4:${supportLibVersion}"       // Support Lib
 
     // Parse
     compile 'com.parse:parse-android:1.13.1'        // Parse

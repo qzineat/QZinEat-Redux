@@ -29,6 +29,12 @@
     <color name="white">#FFFFFF</color>
     <color name="light_amber">#FFECB3</color>
     <color name="grey">#3d3d3d</color>
+    <color name="blue">#0f68ae</color>
+    <color name="light_blue">#039be5</color>
+    <color name="light_red">#f45e2f</color>
+
+    <color name="bgColor">#c7de8418</color>
+
 
 
 </resources>
