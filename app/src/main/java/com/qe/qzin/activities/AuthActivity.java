@@ -16,9 +16,8 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 import com.qe.qzin.R;
-import com.qe.qzin.models.User;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -57,7 +56,9 @@ public class AuthActivity extends AppCompatActivity {
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
     btnLogin.setOnClickListener(mLogInButtonListener);
-    tvSignup.setOnClickListener(mSignUpButtonListener);
+
+    tvSignup.setOnClickListener(mSignUpListener);
+
     btnFBLogin.setOnClickListener(mFBLoginBtnListener);
 
 
@@ -70,45 +71,18 @@ public class AuthActivity extends AppCompatActivity {
   }
 
   // Signup button click
-  View.OnClickListener mSignUpButtonListener = new View.OnClickListener() {
+  View.OnClickListener mSignUpListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
 
-
-
-      String userNameAsEmail = etUserName.getText().toString();
-      String password = etPassword.getText().toString();
-
-      //Force user to fill up the sign up form.
-      if (userNameAsEmail.equals("") || password.equals("")) {
-        Toast.makeText(getApplicationContext(), "Please complete the sign up form", Toast.LENGTH_SHORT).show();
-      } else {
-
-        User user = new User();
-        user.setUsername(userNameAsEmail);
-        user.setPassword(password);
-        user.setEmail(userNameAsEmail); // set userName as email
-
-        user.signUpInBackground(new SignUpCallback() {
-          @Override
-          public void done(ParseException e) {
-            if (e == null) {
-              // TODO: We should do user verification
-              Intent i = new Intent(AuthActivity.this, MainActivity.class);
-              startActivity(i);
-              finish();
-              Toast.makeText(getApplicationContext(), "Successfully signed up, Please log in.", Toast.LENGTH_SHORT).show();
-            } else {
-              Toast.makeText(getApplicationContext(), "Sign up Error. UserName exists", Toast.LENGTH_SHORT).show();
-              e.printStackTrace();
-            }
-
-          }
-        });
-
-      }
+      Intent i = new Intent(AuthActivity.this, SignUpActivity.class);
+      startActivity(i);
+      finish();
     }
   };
+
+
+
 
   // LogIn Button Click
   View.OnClickListener mLogInButtonListener = new View.OnClickListener() {
