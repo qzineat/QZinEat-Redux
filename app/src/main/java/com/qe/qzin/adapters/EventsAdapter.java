@@ -89,8 +89,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
       viewHolder.tvPrice.setText(String.format("%.2f", event.getAmount()));
     }
 
-    DateFormat df = new DateFormat();
-    viewHolder.tvEventDate.setText(df.format("dd MMM yyyy", event.getDate()));
+    if(event.getDate() != null){
+      DateFormat df = new DateFormat();
+      viewHolder.tvEventDate.setText(df.format("dd MMM yyyy", event.getDate()));
+    }
   }
 
   @Override

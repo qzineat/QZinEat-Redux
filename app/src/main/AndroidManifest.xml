@@ -42,8 +42,6 @@
             android:name="com.facebook.sdk.PERMISSIONS"
             android:value="email"/>
 
-        <activity android:name=".activities.BaseActivity">
-        </activity>
         <activity android:name=".activities.SignUpActivity">
         </activity>
         <activity android:name=".activities.HostActivity"
