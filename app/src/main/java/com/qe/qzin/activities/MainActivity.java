@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -35,7 +38,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
   private  List<Event> events;
   private EventsAdapter eventsAdapter;
   private EndlessRecyclerViewScrollListener scrollListener;
+  TextView tvNavHeaderUserName;
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
+  @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,32 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     NavigationView navigationView = (NavigationView) findViewById(nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+
+    View navHeaderView = navigationView.getHeaderView(0);
+
+    if(ParseUser.getCurrentUser() != null){
+
+      tvNavHeaderUserName = (TextView) navHeaderView.findViewById(R.id.textViewHeaderName);
+      tvNavHeaderUserName.setText(ParseUser.getCurrentUser().getUsername());
+
+    }
+
+    // Swipe Refresh
+    swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+
+        eventsAdapter.clear();
+        loadEventData(0);
+        swipeContainer.setRefreshing(false);
+      }
+    });
+
+    // Configure the refreshing colors
+    swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        android.R.color.holo_green_light,
+        android.R.color.holo_orange_light,
+        android.R.color.holo_red_light);
 
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
@@ -152,8 +185,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
       public void done(List<Event> eventList, ParseException exception) {
 
         if(exception == null){
-          events.addAll(eventList);
-          eventsAdapter.notifyItemRangeInserted(eventsAdapter.getItemCount(), events.size());
+          eventsAdapter.addAll(eventList);
         }
       }
     });
