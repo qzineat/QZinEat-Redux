@@ -82,19 +82,33 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     viewHolder.tvLocality.setText(event.getLocality());
     viewHolder.tvEventDescription.setText(event.getDescription());
 
-    int priceInt =  (int) event.getAmount();
-    if(priceInt == event.getAmount()) {
-      viewHolder.tvPrice.setText(String.format("%d", priceInt));
-    }else {
-      viewHolder.tvPrice.setText(String.format("%.2f", event.getAmount()));
+    if((Double)event.getAmount() != null) {
+      int priceInt = (int) event.getAmount();
+      if (priceInt == event.getAmount()) { // if whole amount. eg $40
+        viewHolder.tvPrice.setText(String.format("%d", priceInt));
+      } else { // if amount is not whole amount. eg $40.10
+        viewHolder.tvPrice.setText(String.format("%.2f", event.getAmount()));
+      }
     }
 
-    DateFormat df = new DateFormat();
-    viewHolder.tvEventDate.setText(df.format("dd MMM yyyy", event.getDate()));
+    if(event.getDate() !=null) {
+      DateFormat df = new DateFormat();
+      viewHolder.tvEventDate.setText(df.format("dd MMM yyyy", event.getDate()));
+    }
   }
 
   @Override
   public int getItemCount() {
     return mEvents.size();
+  }
+
+  public void clear() {
+    mEvents.clear();
+    notifyDataSetChanged();
+  }
+
+  public void addAll(List<Event> list){
+    mEvents.addAll(list);
+    notifyItemRangeInserted(getItemCount(), list.size());
   }
 }
