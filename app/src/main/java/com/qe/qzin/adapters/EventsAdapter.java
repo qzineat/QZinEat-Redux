@@ -73,10 +73,18 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     Event event = mEvents.get(position);
 
     // populate the values from above event item
-    Picasso.with(getApplicationContext())
-        .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
-        .fit()
-        .into(viewHolder.ivEvent);
+    if(event.getEventImageUrl() == null){
+      // TODO: Fix this later - Remove loading remote image and have drawable placeholder in Picasso
+      Picasso.with(getApplicationContext())
+          .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
+          .fit()
+          .into(viewHolder.ivEvent);
+    }else{
+      Picasso.with(getApplicationContext())
+          .load(event.getEventImageUrl())
+          .fit()
+          .into(viewHolder.ivEvent);
+    }
 
     viewHolder.tvEventTitle.setText(event.getTitle());
     viewHolder.tvLocality.setText(event.getLocality());

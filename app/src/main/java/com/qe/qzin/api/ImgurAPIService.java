@@ -23,6 +23,6 @@ public interface ImgurAPIService {
   String refreshToken = "2990e10717d34527c711501abda8f1ec26dc6dea";
 
   @Multipart
-  @POST
+  @POST("3/image")
   Call<ImgurResponse> uploadImage(@Header("Authorization") String auth, @Part("image") RequestBody image);
 }
