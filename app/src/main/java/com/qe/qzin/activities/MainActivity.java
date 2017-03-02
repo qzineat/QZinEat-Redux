@@ -137,6 +137,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
       Intent refresh = new Intent(this, MainActivity.class);
       startActivity(refresh);
       finish();
+    } else if(id == R.id.nav_host_event){
+      Intent intent = new Intent(MainActivity.this, HostActivity.class);
+      startActivity(intent);
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
