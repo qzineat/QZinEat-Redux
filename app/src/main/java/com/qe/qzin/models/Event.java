@@ -18,6 +18,7 @@ public class Event extends ParseObject {
   private static final String KEY_AMOUNT = "amount";
   private static final String KEY_CURRENCY = "currency";
   private static final String KEY_EVENT_DATE = "eventDate";
+  private static final String KEY_EVENT_IMAGE_URL = "eventImageUrl";
 
   // Address
   private static final String KEY_STREET_ADDRESS = "street_address";
@@ -108,5 +109,13 @@ public class Event extends ParseObject {
 
   public void setCountry(String country) {
     put(KEY_COUNTRY, country);
+  }
+
+  public String getEventImageUrl() {
+    return getString(KEY_EVENT_IMAGE_URL);
+  }
+
+  public void setEventImageUrl(String eventImageUrl) {
+    put(KEY_EVENT_IMAGE_URL, eventImageUrl);
   }
 }

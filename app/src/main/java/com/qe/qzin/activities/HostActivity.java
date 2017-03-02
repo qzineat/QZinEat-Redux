@@ -1,12 +1,18 @@
 package com.qe.qzin.activities;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -14,9 +20,18 @@ import com.parse.SaveCallback;
 import com.qe.qzin.R;
 import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
+import com.qe.qzin.models.imgur.ImgurResponse;
+import com.qe.qzin.services.ImgurUploadService;
+import com.qe.qzin.util.BitmapScaler;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HostActivity extends BaseActivity {
 
@@ -29,8 +44,12 @@ public class HostActivity extends BaseActivity {
   @BindView(R.id.etState) EditText etState;
   @BindView(R.id.etCountry) EditText etCountry;
   @BindView(R.id.btnAddEvent) Button btnAddEvent;
+  @BindView(R.id.ivEventImage) ImageView ivEventImage;
 
 
+  private static final int SELECT_PICTURE = 100;
+
+  private Bitmap imageBitmap = null;
 
 
   @Override
@@ -52,6 +71,8 @@ public class HostActivity extends BaseActivity {
       getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    // select image
+    ivEventImage.setOnClickListener(mEventImageListener);
 
     // Save Event if user logged in
     btnAddEvent.setOnClickListener(mAddEventButtonListener);
@@ -75,24 +96,20 @@ public class HostActivity extends BaseActivity {
         return;
       }
 
-      // Save Event
-      Event ev = new Event();
-      ev.setHostUser(User.getCurrentUser());
-      ev.setTitle(etTitle.getText().toString());
-      ev.setDescription(etDescription.getText().toString());
+      // 1. save event
+      // 2. upload image
+      // 3. update event
+      saveEvent();
+    }
+  };
 
-      double serviceFee = Double.parseDouble(etServiceFee.getText().toString());
-      ev.setAmount(serviceFee);
-      ev.setCurrency("USD");
-      ev.setLocality(etCity.getText().toString());
-      ev.setAdministrativeArea(etState.getText().toString());
-
-      ev.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-          Toast.makeText(HostActivity.this, "Event Saved Successfully!!!", Toast.LENGTH_SHORT).show();
-        }
-      });
+  View.OnClickListener mEventImageListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+      Intent i = new Intent();
+      i.setType("image/*");
+      i.setAction(Intent.ACTION_GET_CONTENT);
+      startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
     }
   };
 
@@ -116,6 +133,104 @@ public class HostActivity extends BaseActivity {
     }
 
     return true;
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if(resultCode == RESULT_OK){
+      if(requestCode == SELECT_PICTURE){
+        Uri selectedImageUri = data.getData();
+        if (null != selectedImageUri) {
+          // Resize Image
+          Bitmap bitmap = null;
+
+          try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+            if(bitmap.getByteCount() > (1024 * 512)){
+              imageBitmap = BitmapScaler.scaleToFill(bitmap, 800, 700);
+            }else{
+              imageBitmap = bitmap;
+            }
+          }catch (IOException ex){
+            Log.d("ERROR", "Unable to resize bitmap -" + ex.getMessage());
+          }
+
+          if(imageBitmap != null){
+            ivEventImage.setImageBitmap(imageBitmap);
+          }
+        }
+      }
+    }
+
+    super.onActivityResult(requestCode, resultCode, data);
+  }
+
+  private void saveEvent(){
+    // Save Event
+    final Event ev = new Event();
+    ev.setHostUser(User.getCurrentUser());
+    ev.setTitle(etTitle.getText().toString());
+    ev.setDescription(etDescription.getText().toString());
+
+    double serviceFee = Double.parseDouble(etServiceFee.getText().toString());
+    ev.setAmount(serviceFee);
+    ev.setCurrency("USD");
+    ev.setLocality(etCity.getText().toString());
+    ev.setAdministrativeArea(etState.getText().toString());
+
+
+    ev.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if(e != null){
+          Log.d("ERROR", "Unable to save event " + e.getMessage());
+          return;
+        }
+        // upload image
+        uploadImage(ev.getObjectId());
+        //ev.getObjectId()
+        Toast.makeText(HostActivity.this, "Event Saved Successfully!!!", Toast.LENGTH_SHORT).show();
+      }
+    });
+  }
+
+  private void updateEventImage(String eventId, String imageUrl){
+    Event ev = new Event();
+    ev.setObjectId(eventId);
+    ev.setEventImageUrl(imageUrl);
+
+    ev.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if(e != null){
+          Log.e("ERROR", "Unable to save event: " + e.getMessage());
+        }
+      }
+    });
+  }
+
+  private void uploadImage(final String eventId){
+    if(imageBitmap == null){
+      return;
+    }
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+    byte[] data = baos.toByteArray();
+
+    ImgurUploadService uploadService = new ImgurUploadService();
+    uploadService.execute(data, new Callback<ImgurResponse>() {
+      @Override
+      public void onResponse(Call<ImgurResponse> call, Response<ImgurResponse> response) {
+        // now update event - we could do this in background
+        updateEventImage(eventId, response.body().getData().getLink());
+      }
+
+      @Override
+      public void onFailure(Call<ImgurResponse> call, Throwable t) {
+        Log.d("ERROR", "Failed to upload event image" + t.getMessage());
+      }
+    });
   }
 
 }
