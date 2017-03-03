@@ -60,13 +60,54 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etEventDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hintEventDate"
-            android:inputType="date"/>
+            android:inputType="date"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etTimeFrom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hintTimeFrom"
+                android:inputType="time"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etTimeTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hintTimeTo"
+                android:inputType="time"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

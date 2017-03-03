@@ -26,8 +26,11 @@
     <string name="hintCity">City</string>
     <string name="hintState">State</string>
     <string name="hintCountry">Country</string>
+    <string name="hintTimeFrom">Time From</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_event">Add Event</string>
+    <string name="hintTimeTo">Time To</string>
+
 
 </resources>
