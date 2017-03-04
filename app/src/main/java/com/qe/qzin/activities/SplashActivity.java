@@ -12,9 +12,7 @@ import com.squareup.picasso.Picasso;
 
 public class SplashActivity extends AppCompatActivity {
 
-  private final int SPLASH_DISPLAY_LENGTH = 3000;
-
-
+  private final int SPLASH_DISPLAY_LENGTH = 4000;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -44,5 +42,11 @@ public class SplashActivity extends AppCompatActivity {
         SplashActivity.this.finish();
       }
     }, SPLASH_DISPLAY_LENGTH);
+
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
   }
 }
