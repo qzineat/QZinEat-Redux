@@ -1,7 +1,6 @@
 package com.qe.qzin.adapters;
 
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -23,6 +22,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder>{
 
+  private List<Event> mEvents;
+
   public static class ViewHolder extends RecyclerView.ViewHolder{
 
     @BindView(R.id.ivEvent) ImageView ivEvent;
@@ -41,27 +42,18 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
   }
 
-  private List<Event> mEvents;
-  private Context mContext;
 
-
-  public EventsAdapter(Context context, List<Event> events) {
-    mContext = context;
+  public EventsAdapter(List<Event> events) {
     mEvents = events;
   }
 
-  private Context getContext(){
-    return mContext;
-  }
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-    Context context = parent.getContext();
-    LayoutInflater inflater = LayoutInflater.from(context);
+    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
     View convetView = inflater.inflate(R.layout.item_event, parent, false);
-
     ViewHolder viewHolder = new ViewHolder(convetView);
 
     return viewHolder;

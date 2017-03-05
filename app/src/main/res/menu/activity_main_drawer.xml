@@ -10,6 +10,10 @@
             android:id="@+id/nav_host_event"
             android:icon="@drawable/host_event"
             android:title="Host Event"/>
+        <item
+            android:id="@+id/nav_hosted_events"
+            android:icon="@drawable/format_list_bulleted"
+            android:title="Hosted Events"/>
     </group>
 
     <group android:id="@+id/menu_bottom" android:checkableBehavior="none">

@@ -44,8 +44,12 @@
 
         <activity android:name=".activities.SignUpActivity">
         </activity>
-        <activity android:name=".activities.HostActivity"
+        <activity
+            android:name=".activities.HostActivity"
             android:parentActivityName=".activities.MainActivity">
+        </activity>
+        <activity android:name=".activities.HostedEventsActivity">
+
         </activity>
     </application>
 
