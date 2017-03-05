@@ -15,7 +15,11 @@
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity"/>
         <activity
@@ -45,11 +49,7 @@
             android:parentActivityName=".activities.MainActivity">
         </activity>
         <activity android:name=".activities.HostedEventsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
     </application>
 
