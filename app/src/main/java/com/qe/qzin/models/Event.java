@@ -12,12 +12,13 @@ import java.util.Date;
 @ParseClassName("Event")
 public class Event extends ParseObject {
 
-  private static final String KEY_HOST_USER = "hostUser";
+  public static final String KEY_HOST_USER = "hostUser";
+  public static final String KEY_EVENT_DATE = "eventDate";
+
   private static final String KEY_TITLE = "title";
   private static final String KEY_DESCRIPTION = "description";
   private static final String KEY_AMOUNT = "amount";
   private static final String KEY_CURRENCY = "currency";
-  private static final String KEY_EVENT_DATE = "eventDate";
   private static final String KEY_EVENT_TIME_FROM = "eventTimeFrom";
   private static final String KEY_EVENT_TIME_TO = "eventTimeTo";
   private static final String KEY_EVENT_IMAGE_URL = "eventImageUrl";

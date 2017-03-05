@@ -65,10 +65,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     View navHeaderView = navigationView.getHeaderView(0);
 
-    if(ParseUser.getCurrentUser() != null){
+    if(User.getCurrentUser() != null){
 
       tvNavHeaderUserName = (TextView) navHeaderView.findViewById(R.id.textViewHeaderName);
-      tvNavHeaderUserName.setText(ParseUser.getCurrentUser().getUsername());
+      tvNavHeaderUserName.setText(User.getCurrentUser().getUsername());
 
     }
 
@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     // create events adapter
     // set adapter on recycleview
     events = new ArrayList<Event>();
-    eventsAdapter = new EventsAdapter(this, events);
+    eventsAdapter = new EventsAdapter(events);
     rvEvents.setAdapter(eventsAdapter);
     rvEvents.setLayoutManager(linearLayoutManager);
 
