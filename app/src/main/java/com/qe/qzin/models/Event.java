@@ -22,13 +22,14 @@ public class Event extends ParseObject {
   private static final String KEY_EVENT_TIME_FROM = "eventTimeFrom";
   private static final String KEY_EVENT_TIME_TO = "eventTimeTo";
   private static final String KEY_EVENT_IMAGE_URL = "eventImageUrl";
+  private static final String KEY_MAX_GUEST_COUNT = "maxGuestCount";
+  private static final String KEY_ENROLLED_GUEST_COUNT = "enrolledGuestCount";
 
   // Address
   private static final String KEY_STREET_ADDRESS = "street_address";
   private static final String KEY_LOCALITY = "locality";                      // also known as city
   private static final String KEY_ADMINISTRATIVE_AREA = "administrativeArea"; // also known as state
   private static final String KEY_COUNTRY = "country";
-
 
   public Event() {
     // Required for Parse
@@ -136,5 +137,21 @@ public class Event extends ParseObject {
 
   public void setEventTimeTo(String eventTimeTo) {
     put(KEY_EVENT_TIME_TO, eventTimeTo);
+  }
+
+  public int getMaxGuestCount() {
+    return getInt(KEY_MAX_GUEST_COUNT);
+  }
+
+  public void setMaxGuestCount(int maxGuestCount) {
+    put(KEY_MAX_GUEST_COUNT, maxGuestCount);
+  }
+
+  public int getEnrolledGuestCount() {
+    return getInt(KEY_ENROLLED_GUEST_COUNT);
+  }
+
+  public void setEnrolledGuestCount(int enrolledGuestCount) {
+    put(KEY_ENROLLED_GUEST_COUNT, enrolledGuestCount);
   }
 }

@@ -20,6 +20,7 @@ public class HostedEventsViewHolder extends RecyclerView.ViewHolder {
   @BindView(R.id.tvEventTitle) TextView tvEventTitle;
   @BindView(R.id.tvLocality) TextView tvLocality;
   @BindView(R.id.tvEventDate) TextView tvEventDate;
+  @BindView(R.id.tvGuestCountData) TextView tvGuestCountData;
 
   public HostedEventsViewHolder(View itemView) {
     super(itemView);
