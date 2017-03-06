@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qe.qzin.R;
+import com.qe.qzin.listeners.OnEventRemoveListener;
 import com.qe.qzin.models.Event;
 import com.squareup.picasso.Picasso;
 
@@ -21,10 +22,12 @@ import java.util.List;
 public class HostedEventsAdapter extends RecyclerView.Adapter<HostedEventsViewHolder> {
   private List<Event> mEvents;
   private Context mContext;
+  private OnEventRemoveListener eventRemoveListener;
 
-  public HostedEventsAdapter(Context context, List<Event> events) {
+  public HostedEventsAdapter(Context context, List<Event> events, OnEventRemoveListener listener) {
     mEvents = events;
     mContext = context;
+    eventRemoveListener = listener;
   }
 
   @Override
@@ -57,6 +60,10 @@ public class HostedEventsAdapter extends RecyclerView.Adapter<HostedEventsViewHo
       DateFormat df = new DateFormat();
       viewHolder.tvEventDate.setText(df.format("MMM dd, yyyy", event.getDate()));
     }
+    // Guest Count Data
+    int maxGuestCount = event.getMaxGuestCount();
+    int enrolledGuestCount = event.getEnrolledGuestCount();
+    viewHolder.tvGuestCountData.setText(String.format("%d/%d", enrolledGuestCount, maxGuestCount));
   }
 
   @Override
@@ -64,11 +71,35 @@ public class HostedEventsAdapter extends RecyclerView.Adapter<HostedEventsViewHo
     return mEvents.size();
   }
 
+  /**
+   * Remove All data from adapter
+   */
   public void clear() {
     mEvents.clear();
     notifyDataSetChanged();
   }
 
+  /**
+   * Remove one item from adapter
+   * @param position
+   */
+  public void remove(int position){
+
+    Event event = mEvents.get(position);
+
+    if(eventRemoveListener != null){
+      eventRemoveListener.onEventRemoveListener(event);
+    }
+
+    // remove from adapter
+    mEvents.remove(position);
+    notifyItemRemoved(position);
+  }
+
+  /**
+   * Add multiple items into adapter
+   * @param list
+   */
   public void addAll(List<Event> list){
     mEvents.addAll(list);
     notifyItemRangeInserted(getItemCount(), list.size());

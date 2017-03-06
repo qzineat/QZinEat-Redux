@@ -42,11 +42,12 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibVersion}"     // Support Lib
     compile "com.android.support:design:${supportLibVersion}"           // Support Lib
     compile "com.android.support:support-v4:${supportLibVersion}"       // Support Lib
+    //compile "com.android.support:recyclerview-v7:${supportLibVersion}"  // Support Lib recyclerview
 
     // Parse
     compile 'com.parse:parse-android:1.13.1'        // Parse
     compile 'com.parse.bolts:bolts-android:1.4.0'   // Parse Bolts
-    compile 'com.parse:parseinterceptors:0.0.2'     // Parse - for logging API calls to LogCat
+    //compile 'com.parse:parseinterceptors:0.0.2'     // Parse - for logging API calls to LogCat
 
     // misc
     compile "com.jakewharton:butterknife:${butterknifeLibVersion}"          // butterknife
