@@ -56,6 +56,7 @@ public class HostActivity extends BaseActivity implements DatePickerDialog.OnDat
   @BindView(R.id.etCountry) EditText etCountry;
   @BindView(R.id.btnAddEvent) Button btnAddEvent;
   @BindView(R.id.ivEventImage) ImageView ivEventImage;
+  @BindView(R.id.etGuestCount) EditText etGuestCount;
 
 
   private static final int SELECT_PICTURE = 100;
@@ -223,6 +224,7 @@ public class HostActivity extends BaseActivity implements DatePickerDialog.OnDat
     double serviceFee = Double.parseDouble(etServiceFee.getText().toString());
     ev.setAmount(serviceFee);
     ev.setCurrency("USD");
+    ev.setMaxGuestCount(Integer.valueOf(etGuestCount.getText().toString()));
 
 
     ev.saveInBackground(new SaveCallback() {
