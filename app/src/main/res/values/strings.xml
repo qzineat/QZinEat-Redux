@@ -31,6 +31,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_event">Add Event</string>
+    <string name="reserve">Reserve</string>
 
 
 </resources>
