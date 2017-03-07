@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -200,38 +199,34 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     });
   }
 
+  // Enroll user for an event.
+  // TODO: Allow user to enter the guest count.
   @Override
   public void onUserEnrollment(Event event) {
-    //Toast.makeText(this, "On Enroll: " + event.getTitle(), Toast.LENGTH_SHORT).show();
 
-    int currentEnrollCnt = event.getEnrolledGuestCount();
+          Enrollment en = new Enrollment();
+          en.setUserId(User.getCurrentUser());
+          en.setEventId(event.getObjectId());
+          en.setGuestCount(1);
 
-    if(currentEnrollCnt < event.getMaxGuestCount()) {
-      Enrollment en = new Enrollment();
-      en.setUserId(User.getCurrentUser());
-      en.setEventId(event.getObjectId());
-      en.setGuestCount(1);
+          // save entry in Enrollment
+          en.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+              if (e != null) {
+                Log.d("DEBUG", e.getMessage());
+              }
+            }
+          });
 
-      en.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-          if (e != null) {
-            e.printStackTrace();
-          } else {
-            Toast.makeText(MainActivity.this, "User Enrolled ", Toast.LENGTH_SHORT).show();
-          }
+          // update enrolled guest count
+          event.setEnrolledGuestCount(event.getEnrolledGuestCount() + 1);
+          event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+              Log.d("DEBUG", "User enrolled for an event");
+            }
+          });
 
-        }
-      });
-
-      event.setEnrolledGuestCount(currentEnrollCnt + 1);
-
-      event.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-          Log.d("DEBUG", "User enrolled for an event");
-        }
-      });
-    }
   }
 }

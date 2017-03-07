@@ -7,9 +7,9 @@ import com.parse.ParseUser;
 @ParseClassName("Enrollment")
 public class Enrollment extends ParseObject{
 
-  private static final String KEY_USER_ID = "userId";
-  private static final String KEY_EVENT_ID = "eventId";
-  private static final String KEY_GUEST_COUNT = "guestCount";
+  public static final String KEY_USER_ID = "userId";
+  public static final String KEY_EVENT_ID = "eventId";
+  public static final String KEY_GUEST_COUNT = "guestCount";
 
 
   //default constructor

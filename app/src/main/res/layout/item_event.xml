@@ -104,14 +104,16 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/ivShare"/>-->
 
-        <TextView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvReserve"
+            android:id="@+id/btnReserve"
             android:text="@string/reserve"
+            android:backgroundTint="@color/white"
             android:layout_marginEnd="8dp"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/ivShare"/>
+            android:layout_toStartOf="@+id/ivShare"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
         <ImageView
             android:layout_width="wrap_content"
