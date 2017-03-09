@@ -55,7 +55,8 @@ dependencies {
     apt "com.jakewharton:butterknife-compiler:${butterknifeLibVersion}"
     compile 'org.ocpsoft.prettytime:prettytime:4.0.0.Final'                 // prettytime
     compile 'com.squareup.picasso:picasso:2.5.2'                            // picasso
-    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0' // splash screen progress bar
+    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'// splash screen progress bar
+    compile 'com.daimajia.slider:library:1.1.5@aar'                         // image slider
 
     //facebook
     compile 'com.facebook.android:facebook-android-sdk:4.10.0'

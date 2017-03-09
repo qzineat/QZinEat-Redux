@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -24,6 +25,7 @@ import com.parse.SaveCallback;
 import com.qe.qzin.R;
 import com.qe.qzin.adapters.EventsAdapter;
 import com.qe.qzin.listeners.EndlessRecyclerViewScrollListener;
+import com.qe.qzin.listeners.OnEventClickListener;
 import com.qe.qzin.listeners.OnUserEnrollmentListener;
 import com.qe.qzin.models.Enrollment;
 import com.qe.qzin.models.Event;
@@ -38,7 +40,7 @@ import butterknife.ButterKnife;
 import static com.qe.qzin.R.id.nav_view;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
-    OnUserEnrollmentListener{
+    OnUserEnrollmentListener, OnEventClickListener{
 
   private  List<Event> events;
   private EventsAdapter eventsAdapter;
@@ -102,6 +104,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     eventsAdapter = new EventsAdapter(this, events);
     rvEvents.setAdapter(eventsAdapter);
     rvEvents.setLayoutManager(linearLayoutManager);
+
 
     // load data in recycleview on infinite scrolling
     scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -228,5 +231,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
           });
 
+  }
+
+  @Override
+  public void onEventClickListener(int position) {
+    Event event = eventsAdapter.getEventAtPosition(position);
+    Toast.makeText(this, "Title - " + event.getTitle(), Toast.LENGTH_SHORT).show();
+
+    // Call Detail Event Activity
+    Intent intent = new Intent(this, EventDetailActivity.class);
+    intent.putExtra("eventObjectId", event.getObjectId());
+    startActivity(intent);
   }
 }

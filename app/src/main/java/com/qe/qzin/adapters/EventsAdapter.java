@@ -17,6 +17,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.qe.qzin.R;
 import com.qe.qzin.activities.MainActivity;
+import com.qe.qzin.listeners.OnEventClickListener;
 import com.qe.qzin.listeners.OnUserEnrollmentListener;
 import com.qe.qzin.models.Enrollment;
 import com.qe.qzin.models.Event;
@@ -33,7 +34,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
   private List<Event> mEvents;
   private Context mContext;
 
-  public static class ViewHolder extends RecyclerView.ViewHolder{
+  public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     @BindView(R.id.ivEvent) ImageView ivEvent;
     @BindView(R.id.tvEventTitle) TextView tvEventTitle;
@@ -48,8 +49,19 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     public ViewHolder(View view) {
       super(view);
       ButterKnife.bind(this, view);
+      view.setOnClickListener(this);
     }
 
+
+    @Override
+    public void onClick(View view) {
+      Context context = view.getContext();
+      int position = getAdapterPosition();
+      if (context instanceof MainActivity) {
+        ((OnEventClickListener) context).onEventClickListener(position);
+      }
+      //Toast.makeText(view.getContext(), "position = " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+    }
   }
 
 
@@ -65,6 +77,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
     View convetView = inflater.inflate(R.layout.item_event, parent, false);
+
     ViewHolder viewHolder = new ViewHolder(convetView);
 
     return viewHolder;
@@ -179,5 +192,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
   public void addAll(List<Event> list){
     mEvents.addAll(list);
     notifyItemRangeInserted(getItemCount(), list.size());
+  }
+
+  public Event getEventAtPosition(int position){
+    return mEvents.get(position);
   }
 }

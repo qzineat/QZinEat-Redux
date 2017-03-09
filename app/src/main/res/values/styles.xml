@@ -8,4 +8,10 @@
     <style name="CircularThemeProgressBar">
 
     </style>
+
+    <style name="MaterialButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/RobotoCondensed-Bold.ttf</item>
+    </style>
 </resources>
