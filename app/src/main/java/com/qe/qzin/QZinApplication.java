@@ -10,6 +10,7 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
+import com.qe.qzin.models.Enrollment;
 import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
 
@@ -63,6 +64,7 @@ public class QZinApplication extends Application {
     // Register your parse models here
     ParseObject.registerSubclass(User.class);
     ParseObject.registerSubclass(Event.class);
+    ParseObject.registerSubclass(Enrollment.class);
 
     // Parse initialize
     Parse.initialize(new Parse.Configuration.Builder(this)

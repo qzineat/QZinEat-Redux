@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +20,12 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.qe.qzin.R;
 import com.qe.qzin.adapters.EventsAdapter;
 import com.qe.qzin.listeners.EndlessRecyclerViewScrollListener;
+import com.qe.qzin.listeners.OnUserEnrollmentListener;
+import com.qe.qzin.models.Enrollment;
 import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
 
@@ -33,12 +37,13 @@ import butterknife.ButterKnife;
 
 import static com.qe.qzin.R.id.nav_view;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+    OnUserEnrollmentListener{
 
   private  List<Event> events;
   private EventsAdapter eventsAdapter;
   private EndlessRecyclerViewScrollListener scrollListener;
-  TextView tvNavHeaderUserName;
+  private TextView tvNavHeaderUserName;
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
@@ -94,7 +99,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     // create events adapter
     // set adapter on recycleview
     events = new ArrayList<Event>();
-    eventsAdapter = new EventsAdapter(events);
+    eventsAdapter = new EventsAdapter(this, events);
     rvEvents.setAdapter(eventsAdapter);
     rvEvents.setLayoutManager(linearLayoutManager);
 
@@ -194,4 +199,34 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     });
   }
 
+  // Enroll user for an event.
+  // TODO: Allow user to enter the guest count.
+  @Override
+  public void onUserEnrollment(Event event) {
+
+          Enrollment en = new Enrollment();
+          en.setUserId(User.getCurrentUser());
+          en.setEventId(event.getObjectId());
+          en.setGuestCount(1);
+
+          // save entry in Enrollment
+          en.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+              if (e != null) {
+                Log.d("DEBUG", e.getMessage());
+              }
+            }
+          });
+
+          // update enrolled guest count
+          event.setEnrolledGuestCount(event.getEnrolledGuestCount() + 1);
+          event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+              Log.d("DEBUG", "User enrolled for an event");
+            }
+          });
+
+  }
 }
