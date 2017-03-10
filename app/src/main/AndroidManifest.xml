@@ -52,7 +52,8 @@
         <activity android:name=".activities.HostedEventsActivity">
         </activity>
         <activity android:name=".activities.EventDetailActivity"
-            android:parentActivityName=".activities.MainActivity">
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppThemeFullScreen">
 
         </activity>
     </application>
