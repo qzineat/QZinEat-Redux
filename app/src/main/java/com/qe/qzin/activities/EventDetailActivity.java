@@ -3,13 +3,25 @@ package com.qe.qzin.activities;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.qe.qzin.R;
+import com.qe.qzin.models.Enrollment;
 import com.qe.qzin.models.Event;
+import com.qe.qzin.models.User;
+import com.qe.qzin.util.DateTimeUtils;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,8 +31,20 @@ public class EventDetailActivity extends BaseActivity {
   @BindView(R.id.toolbar) Toolbar toolbar;
   @BindView(R.id.appbar) AppBarLayout appbar;
   @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
+  @BindView(R.id.tvEventTitle) TextView tvEventTitle;
+  @BindView(R.id.tvLocality) TextView tvLocality;
+  @BindView(R.id.tvEventDate) TextView tvEventDate;
+  @BindView(R.id.tvTime) TextView tvTime;
+  @BindView(R.id.ivEventImage) ImageView ivEventImage;
+  @BindView(R.id.tvStreet) TextView tvStreet;
+  @BindView(R.id.tvCityStateZip) TextView tvCityStateZip;
+  @BindView(R.id.tvEventDescription) TextView tvEventDescription;
+  @BindView(R.id.tvHostName) TextView tvHostName;
+  @BindView(R.id.btnReserve) Button btnReserve;
 
   private String eventObjectId;
+  private Event mEvent;
+  private boolean isAlreadyReserved = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +58,119 @@ public class EventDetailActivity extends BaseActivity {
     // Get EventId and load
     eventObjectId = getIntent().getExtras().getString("eventObjectId");
     loadEvent(eventObjectId);
+
+    // Reserve
+    btnReserve.setOnClickListener(mOnReserveClickListener);
+  }
+
+  private View.OnClickListener mloginClickListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+      Toast.makeText(EventDetailActivity.this, "Implement Me!!", Toast.LENGTH_SHORT).show();
+    }
+  };
+
+  private View.OnClickListener mOnReserveClickListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+      // check login
+      if(!User.isLoggedIn()){
+        Snackbar.make(view, R.string.login_to_reserve, Snackbar.LENGTH_LONG)
+            .setAction(R.string.login, mloginClickListener)
+            .setActionTextColor(getResources().getColor(R.color.colorYellow))
+            .show();
+        return;
+      }
+
+      // check for host user.. - if I am host and trying to reserve then message him.
+      if(mEvent.getHostUser() == User.getCurrentUser()){
+        // TODO: Implement This
+        Toast.makeText(EventDetailActivity.this, "Host user Registering!!! We have to fix this!!", Toast.LENGTH_LONG).show();
+      }
+
+      // Reserve Event
+      reserveEvent();
+    }
+  };
+
+  private void isReserved(){
+
+    // user enrollment for an event
+    /*try {
+      //if max guest count reached or current user is null (user has not logged in) then do not show Reserve option
+      if(User.getCurrentUser() == null || event.getEnrolledGuestCount() == event.getMaxGuestCount()){
+        viewHolder.btnReserve.setEnabled(false);
+
+      }else {
+        // user is logged in then check if user has not already enrolled for the event
+
+        ParseQuery<Enrollment> query = ParseQuery.getQuery("Enrollment");
+        query.whereEqualTo(Enrollment.KEY_USER_ID, ParseUser.getCurrentUser())
+            .whereEqualTo(Enrollment.KEY_EVENT_ID, event.getObjectId());
+
+        // user has not already enrolled for the event, then allow user to Enroll for an event
+        if (query.count() == 0 && (event.getEnrolledGuestCount() < event.getMaxGuestCount())) {
+
+          viewHolder.btnReserve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+              if (mContext instanceof MainActivity) {
+                OnUserEnrollmentListener listener = (OnUserEnrollmentListener) mContext;
+                listener.onUserEnrollment(event);
+
+                viewHolder.btnReserve.setEnabled(false);
+                viewHolder.btnReserve.setText("Reserved");
+                viewHolder.btnReserve.setTextColor(Color.GREEN);
+              }
+            }
+          });
+
+        }else {
+          // user has already enrolled
+          viewHolder.btnReserve.setEnabled(false);
+          viewHolder.btnReserve.setText("Reserved");
+          viewHolder.btnReserve.setTextColor(Color.GREEN);
+        }
+      }
+    }catch (ParseException e){
+      e.printStackTrace();
+    }*/
+  }
+
+  // Enroll user for an event.
+  // TODO: Allow user to enter the guest count.
+  private void reserveEvent(){
+    Enrollment en = new Enrollment();
+    en.setUserId(User.getCurrentUser());
+    en.setEventId(mEvent.getObjectId());
+    en.setGuestCount(1);
+
+    // save entry in Enrollment
+    en.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if (e != null) {
+          Log.d("DEBUG", e.getMessage());
+        }
+      }
+    });
+
+    // update enrolled guest count
+    mEvent.setEnrolledGuestCount(mEvent.getEnrolledGuestCount() + 1);
+    mEvent.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        Log.d("DEBUG", "User enrolled for an event");
+      }
+    });
   }
 
   private void setCollapsingToolbar(){
     toolbar.setTitle("");
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     // title
-    collapsingToolbar.setTitle(getString(R.string.sample_party_title));
     collapsingToolbar.setTitleEnabled(false);
 
     appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -76,14 +204,54 @@ public class EventDetailActivity extends BaseActivity {
   }
 
   private void loadEvent(String eventObjectId){
-    ParseQuery<Event> query = ParseQuery.getQuery("Event");
+    ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+    // Include the post data with each comment
+    query.include(Event.KEY_HOST_USER);
     query.getInBackground(eventObjectId, new GetCallback<Event>() {
       @Override
       public void done(Event event, ParseException e) {
         if(e != null){
           return;
         }
-        collapsingToolbar.setTitle(event.getTitle());
+
+        mEvent = event;
+
+        String title = event.getTitle();
+        collapsingToolbar.setTitle(title);
+        tvEventTitle.setText(title);
+        tvLocality.setText(event.getLocality());
+        tvEventDate.setText(DateTimeUtils.formatDate(event.getDate()));
+        if(event.getEventTimeFrom() != null){
+          tvTime.setText(String.format("%s - %s", event.getEventTimeFrom(), event.getEventTimeTo()));
+        }
+        // address
+        if(event.getStreetAddress() == null){
+          tvStreet.setVisibility(View.GONE);
+        }else {
+          tvStreet.setText(event.getStreetAddress());
+        }
+
+        tvCityStateZip.setText(String.format("%s, %s", event.getLocality(), event.getAdministrativeArea()));
+        tvEventDescription.setText(event.getDescription());
+
+        if(event.getHostUser() != null){
+          tvHostName.setText(event.getHostUser().getUsername());
+        }
+
+        if(event.getEventImageUrl() == null){
+          Picasso.with(getApplicationContext())
+              .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
+              .fit()
+              .into(ivEventImage);
+        }else{
+          Picasso.with(getApplicationContext())
+              .load(event.getEventImageUrl())
+              .fit()
+              .into(ivEventImage);
+        }
+
+        //enable button
+        btnReserve.setEnabled(true);
       }
     });
   }

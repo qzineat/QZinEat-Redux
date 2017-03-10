@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.qe.qzin.R;
 import com.qe.qzin.listeners.OnEventRemoveListener;
 import com.qe.qzin.models.Event;
+import com.qe.qzin.util.DateTimeUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class HostedEventsAdapter extends RecyclerView.Adapter<HostedEventsViewHo
     viewHolder.tvLocality.setText(event.getLocality());
     if(event.getDate() !=null) {
       DateFormat df = new DateFormat();
-      viewHolder.tvEventDate.setText(df.format("MMM dd, yyyy", event.getDate()));
+      viewHolder.tvEventDate.setText(DateTimeUtils.formatDate(event.getDate()));
     }
     // Guest Count Data
     int maxGuestCount = event.getMaxGuestCount();

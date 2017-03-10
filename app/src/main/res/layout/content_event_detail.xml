@@ -2,6 +2,7 @@
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nsv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,16 +40,19 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical">
                     <TextView
+                        android:id="@+id/tvEventDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Saturday, October 1"
+                        tools:text="Saturday, October 1"
                         android:textColor="#3d3d3d"/>
                     <TextView
+                        android:id="@+id/tvTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="11:00 AM - 4:00 PM"
+                        tools:text="11:00 AM - 4:00 PM"
                         android:textColor="#3d3d3d"
                         android:paddingTop="4dp"/>
                 </LinearLayout>
@@ -73,18 +77,22 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical">
                     <TextView
+                        android:id="@+id/tvStreet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2000 Walnut Ave,"
+                        tools:text="2000 Walnut Ave,"
                         android:textColor="#3d3d3d"/>
                     <TextView
+                        android:id="@+id/tvCityStateZip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="San Francisco, CA 94110"
+                        tools:text="San Francisco, CA 94110"
                         android:textColor="#3d3d3d"
-                        android:paddingTop="4dp"/>
+                        android:paddingTop="4dp"
+                        />
                 </LinearLayout>
 
             </LinearLayout>
@@ -168,10 +176,10 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/info_text"
+                android:id="@+id/tvEventDescription"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="This is desc"
+                tools:text="This is desc"
                 android:textSize="14sp"
                 android:lineSpacingExtra="1mm"
                 android:ellipsize="end"
@@ -192,17 +200,18 @@
                 android:textSize="16sp"
                 android:lines="1"
                 android:paddingBottom="16dp"
-                android:text="What's on the menu"
+                android:text="@string/menu_title"
                 android:textColor="#3d3d3d"
                 />
 
             <TextView
+                android:id="@+id/tvMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:textSize="14sp"
                 android:lineSpacingExtra="1mm"
-                android:text="Sushi, Chicken, Drinks, Salad, Water, Achar, Papad, Curries, and many more dishes"/>
+                tools:text="Sushi, Chicken, Drinks, Salad, Water, Achar, Papad, Curries, and many more dishes"/>
 
 
 

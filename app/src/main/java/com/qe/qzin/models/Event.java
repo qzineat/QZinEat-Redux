@@ -35,8 +35,8 @@ public class Event extends ParseObject {
     // Required for Parse
   }
 
-  public ParseUser getHostUser() {
-    return getParseUser(KEY_HOST_USER);
+  public User getHostUser() {
+    return (User) getParseUser(KEY_HOST_USER);
   }
 
   public void setHostUser(ParseUser hostUser) {

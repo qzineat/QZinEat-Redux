@@ -48,7 +48,7 @@ dependencies {
     // Parse
     compile 'com.parse:parse-android:1.13.1'        // Parse
     compile 'com.parse.bolts:bolts-android:1.4.0'   // Parse Bolts
-    //compile 'com.parse:parseinterceptors:0.0.2'     // Parse - for logging API calls to LogCat
+    compile 'com.parse:parseinterceptors:0.0.2'     // Parse - for logging API calls to LogCat
 
     // misc
     compile "com.jakewharton:butterknife:${butterknifeLibVersion}"          // butterknife
@@ -56,7 +56,8 @@ dependencies {
     compile 'org.ocpsoft.prettytime:prettytime:4.0.0.Final'                 // prettytime
     compile 'com.squareup.picasso:picasso:2.5.2'                            // picasso
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'// splash screen progress bar
-    compile 'com.daimajia.slider:library:1.1.5@aar'                         // image slider
+    //compile 'com.daimajia.slider:library:1.1.5@aar'                         // image slider
+    //compile 'com.nineoldandroids:library:2.4.0'                             // image slider
 
     //facebook
     compile 'com.facebook.android:facebook-android-sdk:4.10.0'

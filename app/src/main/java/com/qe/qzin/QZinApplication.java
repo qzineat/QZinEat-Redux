@@ -10,6 +10,7 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
+import com.parse.interceptors.ParseLogInterceptor;
 import com.qe.qzin.models.Enrollment;
 import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
@@ -70,7 +71,7 @@ public class QZinApplication extends Application {
     Parse.initialize(new Parse.Configuration.Builder(this)
         .applicationId("qzineat")
         .clientKey("qzineat-master-key-2016")
-        //.addNetworkInterceptor(new ParseLogInterceptor())
+        .addNetworkInterceptor(new ParseLogInterceptor())
         .server("https://qzin.herokuapp.com/parse/")
         .build());
 
