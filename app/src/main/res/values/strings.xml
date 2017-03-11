@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QZinEat-Redux</string>
+    <string name="app_name">QZinEat</string>
     <string name="qzin_eat">QZin Eat</string>
     <string name="title_activity_main2">Main2Activity</string>
 
@@ -34,5 +34,12 @@
     <string name="add_event">Add Event</string>
     <string name="reserve">Reserve</string>
 
+    <string name="sample_party_title">Indian Shushi Party</string>
+    <string name="menu_title">What\'s on the menu</string>
+    <string name="btn_reserve">Reserve</string>
 
+    <string name="login_to_reserve">Please login to Reserve!</string>
+    <string name="login">LOGIN</string>
+
+    <string name="hello_world">hello world</string>
 </resources>

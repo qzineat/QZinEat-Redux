@@ -1,6 +1,7 @@
 package com.qe.qzin.util;
 
 import android.support.annotation.Nullable;
+import android.text.format.DateFormat;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -23,5 +24,30 @@ public class DateTimeUtils {
   public static String formatRelative(@Nullable Date date) {
     if (date == null) throw new IllegalArgumentException("date cannot be null!");
     return prettyTime.format(date);
+  }
+
+  public static String formatDate(@Nullable Date date){
+    if (date == null) throw new IllegalArgumentException("date cannot be null!");
+
+    DateFormat df = new DateFormat();
+    return df.format("MMM dd, yyyy", date.getTime()).toString();
+  }
+
+  public static String formatHourInAmPm(String time){
+
+    String ampm;
+
+    String[] values = time.split(":");
+    int hours = Integer.valueOf(values[0]);
+    int minutes = Integer.valueOf(values[1]);
+
+    if(hours > 12){
+      hours = hours - 12;
+      ampm = "PM";
+    }else{
+      ampm = "AM";
+    }
+
+    return new StringBuilder().append(hours).append(":").append(minutes).append(" ").append(ampm).toString();
   }
 }

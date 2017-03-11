@@ -11,6 +11,7 @@ public class User extends ParseUser {
 
 
     private String phone ;
+    private String firstName;
 
     public User() {
 
@@ -22,6 +23,17 @@ public class User extends ParseUser {
 
     public void setPhone(String phone) {
         this.put("phone", phone);
+    }
+
+    public String getFirstName() {
+
+        firstName = getString("firstName");
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+        put("firstName", this.firstName);
     }
 
     public static boolean isLoggedIn(){

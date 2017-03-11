@@ -2,25 +2,18 @@ package com.qe.qzin.adapters;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.qe.qzin.R;
 import com.qe.qzin.activities.MainActivity;
-import com.qe.qzin.listeners.OnUserEnrollmentListener;
-import com.qe.qzin.models.Enrollment;
+import com.qe.qzin.listeners.OnEventClickListener;
 import com.qe.qzin.models.Event;
-import com.qe.qzin.models.User;
+import com.qe.qzin.util.DateTimeUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -33,7 +26,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
   private List<Event> mEvents;
   private Context mContext;
 
-  public static class ViewHolder extends RecyclerView.ViewHolder{
+  public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     @BindView(R.id.ivEvent) ImageView ivEvent;
     @BindView(R.id.tvEventTitle) TextView tvEventTitle;
@@ -42,14 +35,24 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     @BindView(R.id.tvEventDescription) TextView tvEventDescription;
     @BindView(R.id.ivShare) ImageView ivShare;
     @BindView(R.id.tvPrice) TextView tvPrice;
-    @BindView(R.id.btnReserve) Button btnReserve;
 
 
     public ViewHolder(View view) {
       super(view);
       ButterKnife.bind(this, view);
+      view.setOnClickListener(this);
     }
 
+
+    @Override
+    public void onClick(View view) {
+      Context context = view.getContext();
+      int position = getAdapterPosition();
+      if (context instanceof MainActivity) {
+        ((OnEventClickListener) context).onEventClickListener(position);
+      }
+      //Toast.makeText(view.getContext(), "position = " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+    }
   }
 
 
@@ -65,6 +68,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
     View convetView = inflater.inflate(R.layout.item_event, parent, false);
+
     ViewHolder viewHolder = new ViewHolder(convetView);
 
     return viewHolder;
@@ -119,51 +123,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     }
 
     if (event.getDate() != null) {
-      DateFormat df = new DateFormat();
-      viewHolder.tvEventDate.setText(df.format("dd MMM yyyy", event.getDate()));
+      viewHolder.tvEventDate.setText(DateTimeUtils.formatDate(event.getDate()));
     }
 
-    // user enrollment for an event
-     try {
-      //if max guest count reached or current user is null (user has not logged in) then do not show Reserve option
-      if(User.getCurrentUser() == null || event.getEnrolledGuestCount() == event.getMaxGuestCount()){
-        viewHolder.btnReserve.setEnabled(false);
-
-      }else {
-        // user is logged in then check if user has not already enrolled for the event
-
-        ParseQuery<Enrollment> query = ParseQuery.getQuery("Enrollment");
-        query.whereEqualTo(Enrollment.KEY_USER_ID, ParseUser.getCurrentUser())
-            .whereEqualTo(Enrollment.KEY_EVENT_ID, event.getObjectId());
-
-        // user has not already enrolled for the event, then allow user to Enroll for an event
-        if (query.count() == 0 && (event.getEnrolledGuestCount() < event.getMaxGuestCount())) {
-
-          viewHolder.btnReserve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-              if (mContext instanceof MainActivity) {
-                OnUserEnrollmentListener listener = (OnUserEnrollmentListener) mContext;
-                listener.onUserEnrollment(event);
-
-                viewHolder.btnReserve.setEnabled(false);
-                viewHolder.btnReserve.setText("Reserved");
-                viewHolder.btnReserve.setTextColor(Color.GREEN);
-              }
-            }
-          });
-
-        }else {
-          // user has already enrolled
-          viewHolder.btnReserve.setEnabled(false);
-          viewHolder.btnReserve.setText("Reserved");
-          viewHolder.btnReserve.setTextColor(Color.GREEN);
-        }
-      }
-    }catch (ParseException e){
-      e.printStackTrace();
-    }
   }
 
   @Override
@@ -179,5 +141,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
   public void addAll(List<Event> list){
     mEvents.addAll(list);
     notifyItemRangeInserted(getItemCount(), list.size());
+  }
+
+  public Event getEventAtPosition(int position){
+    return mEvents.get(position);
   }
 }
