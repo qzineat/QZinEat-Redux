@@ -252,7 +252,7 @@ public class EventDetailActivity extends BaseActivity {
 
         if(event.getEventImageUrl() == null){
           Picasso.with(getApplicationContext())
-              .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
+              .load(R.drawable.ev_image)
               .fit()
               .into(ivEventImage);
         }else{
