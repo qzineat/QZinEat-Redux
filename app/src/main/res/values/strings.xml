@@ -40,4 +40,6 @@
 
     <string name="login_to_reserve">Please login to Reserve!</string>
     <string name="login">LOGIN</string>
+
+    <string name="hello_world">hello world</string>
 </resources>

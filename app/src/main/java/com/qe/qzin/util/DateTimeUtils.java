@@ -32,4 +32,22 @@ public class DateTimeUtils {
     DateFormat df = new DateFormat();
     return df.format("MMM dd, yyyy", date.getTime()).toString();
   }
+
+  public static String formatHourInAmPm(String time){
+
+    String ampm;
+
+    String[] values = time.split(":");
+    int hours = Integer.valueOf(values[0]);
+    int minutes = Integer.valueOf(values[1]);
+
+    if(hours > 12){
+      hours = hours - 12;
+      ampm = "PM";
+    }else{
+      ampm = "AM";
+    }
+
+    return new StringBuilder().append(hours).append(":").append(minutes).append(" ").append(ampm).toString();
+  }
 }

@@ -152,7 +152,10 @@ public class EventDetailActivity extends BaseActivity {
       public void done(ParseException e) {
         if (e != null) {
           Log.d("DEBUG", e.getMessage());
+          return;
         }
+
+        Toast.makeText(EventDetailActivity.this, "Thanks!!", Toast.LENGTH_SHORT).show();
       }
     });
 
@@ -222,7 +225,9 @@ public class EventDetailActivity extends BaseActivity {
         tvLocality.setText(event.getLocality());
         tvEventDate.setText(DateTimeUtils.formatDate(event.getDate()));
         if(event.getEventTimeFrom() != null){
-          tvTime.setText(String.format("%s - %s", event.getEventTimeFrom(), event.getEventTimeTo()));
+          tvTime.setText(String.format("%s - %s",
+              DateTimeUtils.formatHourInAmPm(event.getEventTimeFrom()),
+              DateTimeUtils.formatHourInAmPm(event.getEventTimeTo())));
         }
         // address
         if(event.getStreetAddress() == null){
@@ -235,7 +240,14 @@ public class EventDetailActivity extends BaseActivity {
         tvEventDescription.setText(event.getDescription());
 
         if(event.getHostUser() != null){
-          tvHostName.setText(event.getHostUser().getUsername());
+          if(event.getHostUser().getFirstName() != null){
+            tvHostName.setText(event.getHostUser().getFirstName());
+          }else{
+            // extract username only from email
+            int index = event.getHostUser().getUsername().indexOf('@');
+            tvHostName.setText(event.getHostUser().getUsername().substring(0, index));
+          }
+
         }
 
         if(event.getEventImageUrl() == null){

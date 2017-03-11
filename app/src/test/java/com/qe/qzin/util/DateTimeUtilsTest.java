@@ -35,4 +35,9 @@ public class DateTimeUtilsTest {
   public void testIllegalArgumentException() {
     DateTimeUtils.formatRelative(null);
   }
+
+  @Test
+  public void testFormatTime() throws Exception{
+    assertEquals("2:30 PM", DateTimeUtils.formatHourInAmPm("14:30"));
+  }
 }
