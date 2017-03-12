@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -41,9 +42,11 @@ public class MainActivity extends BaseActivity
   private  List<Event> events;
   private EventsAdapter eventsAdapter;
   private EndlessRecyclerViewScrollListener scrollListener;
-  private TextView tvNavHeaderUserName;
+
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+  ImageView ivProfileEdit;
+  TextView tvNavHeaderUserName;
 
 
 
@@ -69,11 +72,23 @@ public class MainActivity extends BaseActivity
     View navHeaderView = navigationView.getHeaderView(0);
 
     if(User.getCurrentUser() != null){
-
       tvNavHeaderUserName = (TextView) navHeaderView.findViewById(R.id.textViewHeaderName);
-      tvNavHeaderUserName.setText(User.getCurrentUser().getUsername());
+      ivProfileEdit = (ImageView)  navHeaderView.findViewById(R.id.ivProfileEdit);
 
+      tvNavHeaderUserName.setText(User.getCurrentUser().getUsername());
+      ivProfileEdit.setVisibility(View.VISIBLE);
+      // Edit Profile
+      ivProfileEdit.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          Intent intent = new Intent(MainActivity.this, UpdateProfileActivity.class);
+          startActivity(intent);
+        }
+      });
     }
+
+
+
 
     // Swipe Refresh
     swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

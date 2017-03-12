@@ -29,6 +29,7 @@
     <string name="hintTimeFrom">Time From</string>
     <string name="hintTimeTo">Time To</string>
     <string name="hintGuestCount">Guest Count</string>
+    <string name="hintFirstName">First Name</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_event">Add Event</string>
@@ -37,9 +38,12 @@
     <string name="sample_party_title">Indian Shushi Party</string>
     <string name="menu_title">What\'s on the menu</string>
     <string name="btn_reserve">Reserve</string>
+    <string name="btn_update">Update</string>
 
     <string name="login_to_reserve">Please login to Reserve!</string>
     <string name="login">LOGIN</string>
 
     <string name="hello_world">hello world</string>
+    <string name="hintEmail">Email</string>
+    <string name="hintPhone">Phone</string>
 </resources>
