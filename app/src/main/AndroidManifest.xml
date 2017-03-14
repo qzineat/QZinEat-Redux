@@ -55,9 +55,12 @@
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppThemeFullScreen">
         </activity>
-        <activity android:name=".activities.UpdateProfileActivity"
+        <activity
+            android:name=".activities.UpdateProfileActivity"
             android:parentActivityName=".activities.MainActivity">
-
+        </activity>
+        <activity android:name=".activities.RegisteredEventsActivity"
+            android:parentActivityName=".activities.MainActivity">
         </activity>
     </application>
 

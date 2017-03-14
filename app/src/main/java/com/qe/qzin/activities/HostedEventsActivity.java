@@ -54,6 +54,11 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
     toolbar.setTitle("Hosted Events");
 
     setSupportActionBar(toolbar);
+    // add back arrow to toolbar
+    if (getSupportActionBar() != null){
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
     mEvents = new ArrayList<>();

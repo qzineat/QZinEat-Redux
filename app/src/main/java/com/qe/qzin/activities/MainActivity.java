@@ -88,8 +88,23 @@ public class MainActivity extends BaseActivity
     }
 
 
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
+    // create events adapter
+    // set adapter on recycleview
+    events = new ArrayList<Event>();
+    eventsAdapter = new EventsAdapter(this, events);
+    rvEvents.setAdapter(eventsAdapter);
+    rvEvents.setLayoutManager(linearLayoutManager);
 
+    addSwipeRefresh();                          // Swipe Refresh
+    addInfiniteScrolling(linearLayoutManager);  // infinite scrolling
+
+    loadEventData(0);
+  }
+
+  // Swipe Refresh
+  private void addSwipeRefresh(){
     // Swipe Refresh
     swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
@@ -106,17 +121,10 @@ public class MainActivity extends BaseActivity
         android.R.color.holo_green_light,
         android.R.color.holo_orange_light,
         android.R.color.holo_red_light);
+  }
 
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-
-    // create events adapter
-    // set adapter on recycleview
-    events = new ArrayList<Event>();
-    eventsAdapter = new EventsAdapter(this, events);
-    rvEvents.setAdapter(eventsAdapter);
-    rvEvents.setLayoutManager(linearLayoutManager);
-
-
+  // load data in recycleview on infinite scrolling
+  private void addInfiniteScrolling(LinearLayoutManager linearLayoutManager){
     // load data in recycleview on infinite scrolling
     scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
       @Override
@@ -126,7 +134,6 @@ public class MainActivity extends BaseActivity
     };
 
     rvEvents.addOnScrollListener(scrollListener);
-    loadEventData(0);
   }
 
   @Override
@@ -161,6 +168,9 @@ public class MainActivity extends BaseActivity
       startActivity(intent);
     }else if(id == R.id.nav_hosted_events){
       Intent intent = new Intent(MainActivity.this, HostedEventsActivity.class);
+      startActivity(intent);
+    }else if(id == R.id.nav_registered_events){
+      Intent intent = new Intent(MainActivity.this, RegisteredEventsActivity.class);
       startActivity(intent);
     }
 

@@ -3,9 +3,9 @@
 
     <group android:id="@+id/menu_top" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/home"
-            android:title="Home"/>
+            android:id="@+id/nav_registered_events"
+            android:icon="@drawable/playlist_check"
+            android:title="My Events"/>
         <item
             android:id="@+id/nav_host_event"
             android:icon="@drawable/host_event"
