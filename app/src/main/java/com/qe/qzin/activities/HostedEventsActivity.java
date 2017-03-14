@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -34,9 +35,8 @@ import butterknife.ButterKnife;
 
 public class HostedEventsActivity extends BaseActivity implements OnEventRemoveListener {
 
-  @BindView(R.id.rvEvents)
-  RecyclerView rvEvents;
-  //@BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+  @BindView(R.id.rvEvents) RecyclerView rvEvents;
+  @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
   private List<Event> mEvents;
   private HostedEventsAdapter hostedEventsAdapter;
@@ -68,15 +68,8 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
     rvEvents.setAdapter(hostedEventsAdapter);
     rvEvents.setLayoutManager(linearLayoutManager);
 
-    // load data in recycleview on infinite scrolling
-    scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-      @Override
-      public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-        loadHostedEvents(page);
-      }
-    };
-
-    rvEvents.addOnScrollListener(scrollListener);
+    addSwipeRefresh();
+    addInfiniteScrolling(linearLayoutManager);
 
     // add swipe left feature
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -87,13 +80,46 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
     loadHostedEvents(0);
   }
 
+  // Swipe Refresh
+  private void addSwipeRefresh(){
+    swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+        hostedEventsAdapter.clear();
+        loadHostedEvents(0);
+        swipeContainer.setRefreshing(false);
+      }
+    });
+
+    // Configure the refreshing colors
+    swipeContainer.setColorSchemeResources(
+        android.R.color.holo_blue_bright,
+        android.R.color.holo_green_light,
+        android.R.color.holo_orange_light,
+        android.R.color.holo_red_light);
+  }
+
+  // load data in recycleview on infinite scrolling
+  private void addInfiniteScrolling(LinearLayoutManager linearLayoutManager){
+    // load data in recycleview on infinite scrolling
+    scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+      @Override
+      public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+        loadHostedEvents(page);
+      }
+    };
+
+    rvEvents.addOnScrollListener(scrollListener);
+  }
+
+
   /**
    * Load Hosted Events
    *
    * @param offset
    */
   private void loadHostedEvents(int offset) {
-    ParseQuery<Event> query = ParseQuery.getQuery("Event");
+    ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
     query.whereEqualTo(Event.KEY_HOST_USER, User.getCurrentUser());
     query.setLimit(displayLimit);
     query.setSkip(offset * displayLimit);

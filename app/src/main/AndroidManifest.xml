@@ -48,7 +48,8 @@
             android:name=".activities.HostActivity"
             android:parentActivityName=".activities.MainActivity">
         </activity>
-        <activity android:name=".activities.HostedEventsActivity">
+        <activity android:name=".activities.HostedEventsActivity"
+            android:parentActivityName=".activities.MainActivity">
         </activity>
         <activity
             android:name=".activities.EventDetailActivity"
