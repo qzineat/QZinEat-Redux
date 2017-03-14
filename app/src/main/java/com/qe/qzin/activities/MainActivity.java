@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity
 
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+  @BindView(R.id.progressBar) ProgressBar progressBar;
   ImageView ivProfileEdit;
   TextView tvNavHeaderUserName;
 
@@ -75,7 +77,14 @@ public class MainActivity extends BaseActivity
       tvNavHeaderUserName = (TextView) navHeaderView.findViewById(R.id.textViewHeaderName);
       ivProfileEdit = (ImageView)  navHeaderView.findViewById(R.id.ivProfileEdit);
 
-      tvNavHeaderUserName.setText(User.getCurrentUser().getUsername());
+      User u = (User) User.getCurrentUser();
+
+      if(u.getFirstName() != null){
+        tvNavHeaderUserName.setText(u.getFirstName());
+      }else{
+        tvNavHeaderUserName.setText(u.getUsername());
+      }
+
       ivProfileEdit.setVisibility(View.VISIBLE);
       // Edit Profile
       ivProfileEdit.setOnClickListener(new View.OnClickListener() {
@@ -207,8 +216,10 @@ public class MainActivity extends BaseActivity
   // pagination and endless scrolling
   private void loadEventData(int offset) {
 
+    progressBar.setVisibility(View.VISIBLE);
+
     int displayLimit = 5;
-    ParseQuery<Event> query = ParseQuery.getQuery("Event");
+    ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
     query.setLimit(displayLimit);
     query.setSkip(offset * displayLimit);
 
@@ -219,6 +230,8 @@ public class MainActivity extends BaseActivity
         if(exception == null){
           eventsAdapter.addAll(eventList);
         }
+
+        progressBar.setVisibility(View.INVISIBLE);
       }
     });
   }

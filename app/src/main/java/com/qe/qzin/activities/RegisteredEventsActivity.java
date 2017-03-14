@@ -5,6 +5,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -28,6 +30,7 @@ public class RegisteredEventsActivity extends BaseActivity {
   @BindView(R.id.toolbar) Toolbar toolbar;
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+  @BindView(R.id.progressBar) ProgressBar progressBar;
 
   private List<Event> mEvents;
   private RegisteredEventsAdapter registeredEventsAdapter;
@@ -95,6 +98,9 @@ public class RegisteredEventsActivity extends BaseActivity {
   }
 
   private void loadEvents(int offset) {
+
+    progressBar.setVisibility(View.VISIBLE);
+
     ParseQuery<Enrollment> query = ParseQuery.getQuery(Enrollment.class);
     query.whereEqualTo(Enrollment.KEY_USER, User.getCurrentUser());
     query.include(Enrollment.KEY_EVENT);
@@ -103,18 +109,21 @@ public class RegisteredEventsActivity extends BaseActivity {
     query.findInBackground(new FindCallback<Enrollment>() {
       @Override
       public void done(List<Enrollment> enrollments, ParseException e) {
-        if(e!=null){
-          Toast.makeText(RegisteredEventsActivity.this, "Unable to get events!!", Toast.LENGTH_SHORT).show();
-          return;
-        }
-        List<Event> eventList = new ArrayList<Event>();
-        for(Enrollment enrollment: enrollments){
-          if(enrollment.getEvent() != null){
-            eventList.add(enrollment.getEvent());
+
+        if(e == null){
+          List<Event> eventList = new ArrayList<Event>();
+          for(Enrollment enrollment: enrollments){
+            if(enrollment.getEvent() != null){
+              eventList.add(enrollment.getEvent());
+            }
           }
+
+          registeredEventsAdapter.addAll(eventList);
+        }else {
+          Toast.makeText(RegisteredEventsActivity.this, "Unable to get events!!", Toast.LENGTH_SHORT).show();
         }
 
-        registeredEventsAdapter.addAll(eventList);
+        progressBar.setVisibility(View.INVISIBLE);
       }
     });
   }

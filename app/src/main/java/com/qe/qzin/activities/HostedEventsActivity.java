@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.DeleteCallback;
@@ -40,6 +41,7 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
   @BindView(R.id.toolbar) Toolbar toolbar;
+  @BindView(R.id.progressBar) ProgressBar progressBar;
 
   private List<Event> mEvents;
   private HostedEventsAdapter hostedEventsAdapter;
@@ -121,6 +123,9 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
    * @param offset
    */
   private void loadHostedEvents(int offset) {
+
+    progressBar.setVisibility(View.VISIBLE);
+
     ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
     query.whereEqualTo(Event.KEY_HOST_USER, User.getCurrentUser());
     query.setLimit(displayLimit);
@@ -135,6 +140,7 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
         } else {
           Log.e("ERROR", "Unable to load events from Parse: " + e.getMessage());
         }
+        progressBar.setVisibility(View.INVISIBLE);
       }
     });
 
