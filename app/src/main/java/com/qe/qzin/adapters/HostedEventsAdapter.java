@@ -105,4 +105,8 @@ public class HostedEventsAdapter extends RecyclerView.Adapter<HostedEventsViewHo
     mEvents.addAll(list);
     notifyItemRangeInserted(getItemCount(), list.size());
   }
+
+  public Event getEventAtPosition(int position){
+    return mEvents.get(position);
+  }
 }

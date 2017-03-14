@@ -1,5 +1,6 @@
 package com.qe.qzin.activities;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -23,6 +24,7 @@ import com.parse.ParseQuery;
 import com.qe.qzin.R;
 import com.qe.qzin.adapters.HostedEventsAdapter;
 import com.qe.qzin.listeners.EndlessRecyclerViewScrollListener;
+import com.qe.qzin.listeners.OnEventClickListener;
 import com.qe.qzin.listeners.OnEventRemoveListener;
 import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
@@ -33,10 +35,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HostedEventsActivity extends BaseActivity implements OnEventRemoveListener {
+public class HostedEventsActivity extends BaseActivity implements OnEventRemoveListener, OnEventClickListener {
 
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+  @BindView(R.id.toolbar) Toolbar toolbar;
 
   private List<Event> mEvents;
   private HostedEventsAdapter hostedEventsAdapter;
@@ -50,7 +53,6 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
 
     ButterKnife.bind(this);
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setTitle("Hosted Events");
 
     setSupportActionBar(toolbar);
@@ -289,5 +291,15 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
         }
       }
     });
+  }
+
+  @Override
+  public void onEventClickListener(int position) {
+    Event event = hostedEventsAdapter.getEventAtPosition(position);
+
+    Intent intent = new Intent(this, EventUsersActivity.class);
+    intent.putExtra("eventId", event.getObjectId());
+    intent.putExtra("eventTitle", event.getTitle());
+    startActivity(intent);
   }
 }
