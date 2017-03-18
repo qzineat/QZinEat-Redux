@@ -142,8 +142,8 @@ public class EventDetailActivity extends BaseActivity {
   // TODO: Allow user to enter the guest count.
   private void reserveEvent(){
     Enrollment en = new Enrollment();
-    en.setUserId(User.getCurrentUser());
-    en.setEventId(mEvent.getObjectId());
+    en.setEnrollUser((User) User.getCurrentUser());
+    en.setEvent(mEvent);
     en.setGuestCount(1);
 
     // save entry in Enrollment

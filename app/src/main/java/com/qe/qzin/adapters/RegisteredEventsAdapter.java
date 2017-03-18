@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qe.qzin.R;
-import com.qe.qzin.listeners.OnEventRemoveListener;
 import com.qe.qzin.models.Event;
 import com.qe.qzin.util.DateTimeUtils;
 import com.squareup.picasso.Picasso;
@@ -20,21 +19,19 @@ import java.util.List;
  * Created by Shyam Rokde on 3/3/17.
  */
 
-public class HostedEventsAdapter extends RecyclerView.Adapter<HostedEventsViewHolder> {
+public class RegisteredEventsAdapter extends RecyclerView.Adapter<HostedEventsViewHolder> {
   private List<Event> mEvents;
   private Context mContext;
-  private OnEventRemoveListener eventRemoveListener;
 
-  public HostedEventsAdapter(Context context, List<Event> events, OnEventRemoveListener listener) {
+  public RegisteredEventsAdapter(Context context, List<Event> events) {
     mEvents = events;
     mContext = context;
-    eventRemoveListener = listener;
   }
 
   @Override
   public HostedEventsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-    View convetView = inflater.inflate(R.layout.item_hosted_event, parent, false);
+    View convetView = inflater.inflate(R.layout.item_registered_event, parent, false);
 
     return new HostedEventsViewHolder(convetView);
   }
@@ -46,7 +43,7 @@ public class HostedEventsAdapter extends RecyclerView.Adapter<HostedEventsViewHo
     if(event.getEventImageUrl() == null){
       // TODO: Fix this later - Remove loading remote image and have drawable placeholder in Picasso
       Picasso.with(mContext)
-          .load("http://blog.logomyway.com/wp-content/uploads/2013/06/143.jpg")
+          .load(R.drawable.ev_image)
           .fit()
           .into(viewHolder.ivEventImage);
     }else{
@@ -81,32 +78,11 @@ public class HostedEventsAdapter extends RecyclerView.Adapter<HostedEventsViewHo
   }
 
   /**
-   * Remove one item from adapter
-   * @param position
-   */
-  public void remove(int position){
-
-    Event event = mEvents.get(position);
-
-    if(eventRemoveListener != null){
-      eventRemoveListener.onEventRemoveListener(event);
-    }
-
-    // remove from adapter
-    mEvents.remove(position);
-    notifyItemRemoved(position);
-  }
-
-  /**
    * Add multiple items into adapter
    * @param list
    */
   public void addAll(List<Event> list){
     mEvents.addAll(list);
     notifyItemRangeInserted(getItemCount(), list.size());
-  }
-
-  public Event getEventAtPosition(int position){
-    return mEvents.get(position);
   }
 }

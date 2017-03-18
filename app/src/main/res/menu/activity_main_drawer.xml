@@ -3,27 +3,27 @@
 
     <group android:id="@+id/menu_top" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/home"
-            android:title="Home"/>
+            android:id="@+id/nav_registered_events"
+            android:icon="@drawable/playlist_check"
+            android:title="@string/navMyEvents"/>
         <item
             android:id="@+id/nav_host_event"
             android:icon="@drawable/host_event"
-            android:title="Host Event"/>
+            android:title="@string/navHostEvent"/>
         <item
             android:id="@+id/nav_hosted_events"
             android:icon="@drawable/format_list_bulleted"
-            android:title="Hosted Events"/>
+            android:title="@string/navHostedEvents"/>
     </group>
 
     <group android:id="@+id/menu_bottom" android:checkableBehavior="none">
         <item
             android:id="@+id/nav_login"
             android:icon="@drawable/login"
-            android:title="Login"/>
+            android:title="@string/navLogin"/>
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
-            android:title="Logout"/>
+            android:title="@string/navLogout"/>
     </group>
 </menu>

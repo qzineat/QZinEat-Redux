@@ -1,5 +1,6 @@
 package com.qe.qzin.activities;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -7,12 +8,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.DeleteCallback;
@@ -22,6 +25,7 @@ import com.parse.ParseQuery;
 import com.qe.qzin.R;
 import com.qe.qzin.adapters.HostedEventsAdapter;
 import com.qe.qzin.listeners.EndlessRecyclerViewScrollListener;
+import com.qe.qzin.listeners.OnEventClickListener;
 import com.qe.qzin.listeners.OnEventRemoveListener;
 import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
@@ -32,11 +36,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HostedEventsActivity extends BaseActivity implements OnEventRemoveListener {
+public class HostedEventsActivity extends BaseActivity implements OnEventRemoveListener, OnEventClickListener {
 
-  @BindView(R.id.rvEvents)
-  RecyclerView rvEvents;
-  //@BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+  @BindView(R.id.rvEvents) RecyclerView rvEvents;
+  @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+  @BindView(R.id.toolbar) Toolbar toolbar;
+  @BindView(R.id.progressBar) ProgressBar progressBar;
 
   private List<Event> mEvents;
   private HostedEventsAdapter hostedEventsAdapter;
@@ -50,10 +55,14 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
 
     ButterKnife.bind(this);
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setTitle("Hosted Events");
 
     setSupportActionBar(toolbar);
+    // add back arrow to toolbar
+    if (getSupportActionBar() != null){
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
     mEvents = new ArrayList<>();
@@ -63,15 +72,8 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
     rvEvents.setAdapter(hostedEventsAdapter);
     rvEvents.setLayoutManager(linearLayoutManager);
 
-    // load data in recycleview on infinite scrolling
-    scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-      @Override
-      public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-        loadHostedEvents(page);
-      }
-    };
-
-    rvEvents.addOnScrollListener(scrollListener);
+    addSwipeRefresh();
+    addInfiniteScrolling(linearLayoutManager);
 
     // add swipe left feature
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -82,13 +84,49 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
     loadHostedEvents(0);
   }
 
+  // Swipe Refresh
+  private void addSwipeRefresh(){
+    swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+        hostedEventsAdapter.clear();
+        loadHostedEvents(0);
+        swipeContainer.setRefreshing(false);
+      }
+    });
+
+    // Configure the refreshing colors
+    swipeContainer.setColorSchemeResources(
+        android.R.color.holo_blue_bright,
+        android.R.color.holo_green_light,
+        android.R.color.holo_orange_light,
+        android.R.color.holo_red_light);
+  }
+
+  // load data in recycleview on infinite scrolling
+  private void addInfiniteScrolling(LinearLayoutManager linearLayoutManager){
+    // load data in recycleview on infinite scrolling
+    scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+      @Override
+      public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+        loadHostedEvents(page);
+      }
+    };
+
+    rvEvents.addOnScrollListener(scrollListener);
+  }
+
+
   /**
    * Load Hosted Events
    *
    * @param offset
    */
   private void loadHostedEvents(int offset) {
-    ParseQuery<Event> query = ParseQuery.getQuery("Event");
+
+    progressBar.setVisibility(View.VISIBLE);
+
+    ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
     query.whereEqualTo(Event.KEY_HOST_USER, User.getCurrentUser());
     query.setLimit(displayLimit);
     query.setSkip(offset * displayLimit);
@@ -102,6 +140,7 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
         } else {
           Log.e("ERROR", "Unable to load events from Parse: " + e.getMessage());
         }
+        progressBar.setVisibility(View.INVISIBLE);
       }
     });
 
@@ -258,5 +297,15 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
         }
       }
     });
+  }
+
+  @Override
+  public void onEventClickListener(int position) {
+    Event event = hostedEventsAdapter.getEventAtPosition(position);
+
+    Intent intent = new Intent(this, EventUsersActivity.class);
+    intent.putExtra("eventId", event.getObjectId());
+    intent.putExtra("eventTitle", event.getTitle());
+    startActivity(intent);
   }
 }

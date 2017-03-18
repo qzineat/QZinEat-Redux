@@ -46,4 +46,9 @@
     <string name="hello_world">hello world</string>
     <string name="hintEmail">Email</string>
     <string name="hintPhone">Phone</string>
+    <string name="navHostEvent">Host New Event</string>
+    <string name="navHostedEvents">Hosted Events</string>
+    <string name="navMyEvents">My Events</string>
+    <string name="navLogin">Login</string>
+    <string name="navLogout">Logout</string>
 </resources>

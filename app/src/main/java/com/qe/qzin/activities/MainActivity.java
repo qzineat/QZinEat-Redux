@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity
 
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+  @BindView(R.id.progressBar) ProgressBar progressBar;
   ImageView ivProfileEdit;
   TextView tvNavHeaderUserName;
 
@@ -75,7 +77,14 @@ public class MainActivity extends BaseActivity
       tvNavHeaderUserName = (TextView) navHeaderView.findViewById(R.id.textViewHeaderName);
       ivProfileEdit = (ImageView)  navHeaderView.findViewById(R.id.ivProfileEdit);
 
-      tvNavHeaderUserName.setText(User.getCurrentUser().getUsername());
+      User u = (User) User.getCurrentUser();
+
+      if(u.getFirstName() != null){
+        tvNavHeaderUserName.setText(u.getFirstName());
+      }else{
+        tvNavHeaderUserName.setText(u.getUsername());
+      }
+
       ivProfileEdit.setVisibility(View.VISIBLE);
       // Edit Profile
       ivProfileEdit.setOnClickListener(new View.OnClickListener() {
@@ -88,8 +97,23 @@ public class MainActivity extends BaseActivity
     }
 
 
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
+    // create events adapter
+    // set adapter on recycleview
+    events = new ArrayList<Event>();
+    eventsAdapter = new EventsAdapter(this, events);
+    rvEvents.setAdapter(eventsAdapter);
+    rvEvents.setLayoutManager(linearLayoutManager);
 
+    addSwipeRefresh();                          // Swipe Refresh
+    addInfiniteScrolling(linearLayoutManager);  // infinite scrolling
+
+    loadEventData(0);
+  }
+
+  // Swipe Refresh
+  private void addSwipeRefresh(){
     // Swipe Refresh
     swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
@@ -106,17 +130,10 @@ public class MainActivity extends BaseActivity
         android.R.color.holo_green_light,
         android.R.color.holo_orange_light,
         android.R.color.holo_red_light);
+  }
 
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-
-    // create events adapter
-    // set adapter on recycleview
-    events = new ArrayList<Event>();
-    eventsAdapter = new EventsAdapter(this, events);
-    rvEvents.setAdapter(eventsAdapter);
-    rvEvents.setLayoutManager(linearLayoutManager);
-
-
+  // load data in recycleview on infinite scrolling
+  private void addInfiniteScrolling(LinearLayoutManager linearLayoutManager){
     // load data in recycleview on infinite scrolling
     scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
       @Override
@@ -126,7 +143,6 @@ public class MainActivity extends BaseActivity
     };
 
     rvEvents.addOnScrollListener(scrollListener);
-    loadEventData(0);
   }
 
   @Override
@@ -161,6 +177,9 @@ public class MainActivity extends BaseActivity
       startActivity(intent);
     }else if(id == R.id.nav_hosted_events){
       Intent intent = new Intent(MainActivity.this, HostedEventsActivity.class);
+      startActivity(intent);
+    }else if(id == R.id.nav_registered_events){
+      Intent intent = new Intent(MainActivity.this, RegisteredEventsActivity.class);
       startActivity(intent);
     }
 
@@ -197,8 +216,10 @@ public class MainActivity extends BaseActivity
   // pagination and endless scrolling
   private void loadEventData(int offset) {
 
+    progressBar.setVisibility(View.VISIBLE);
+
     int displayLimit = 5;
-    ParseQuery<Event> query = ParseQuery.getQuery("Event");
+    ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
     query.setLimit(displayLimit);
     query.setSkip(offset * displayLimit);
 
@@ -209,6 +230,8 @@ public class MainActivity extends BaseActivity
         if(exception == null){
           eventsAdapter.addAll(eventList);
         }
+
+        progressBar.setVisibility(View.INVISIBLE);
       }
     });
   }
