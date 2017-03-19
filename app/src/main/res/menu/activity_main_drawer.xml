@@ -25,5 +25,9 @@
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
             android:title="@string/navLogout"/>
+        <item
+            android:id="@+id/nav_switch"
+            android:icon="@drawable/account_switch"
+            android:title="@string/switch_to_hosting"/>
     </group>
 </menu>

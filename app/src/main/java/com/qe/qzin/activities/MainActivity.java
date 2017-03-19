@@ -21,12 +21,14 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.qe.qzin.QZinApplication;
 import com.qe.qzin.R;
 import com.qe.qzin.adapters.EventsAdapter;
 import com.qe.qzin.listeners.EndlessRecyclerViewScrollListener;
 import com.qe.qzin.listeners.OnEventClickListener;
 import com.qe.qzin.models.Event;
 import com.qe.qzin.models.User;
+import com.qe.qzin.util.QZinUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,8 @@ public class MainActivity extends BaseActivity
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
   @BindView(R.id.progressBar) ProgressBar progressBar;
+  @BindView(R.id.drawer_layout) DrawerLayout drawer;
+  @BindView(R.id.nav_view) NavigationView navView;
   ImageView ivProfileEdit;
   TextView tvNavHeaderUserName;
 
@@ -55,6 +59,7 @@ public class MainActivity extends BaseActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    QZinUtil.onActivityCreateSetTheme(this); // Change Theme
     setContentView(R.layout.activity_main);
 
     ButterKnife.bind(this);
@@ -62,16 +67,17 @@ public class MainActivity extends BaseActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
 
-    NavigationView navigationView = (NavigationView) findViewById(nav_view);
-    navigationView.setNavigationItemSelectedListener(this);
+    // Drawer config
+    setDrawerTheme();
 
-    View navHeaderView = navigationView.getHeaderView(0);
+    navView.setNavigationItemSelectedListener(this);
+
+    View navHeaderView = navView.getHeaderView(0);
 
     if(User.getCurrentUser() != null){
       tvNavHeaderUserName = (TextView) navHeaderView.findViewById(R.id.textViewHeaderName);
@@ -110,6 +116,16 @@ public class MainActivity extends BaseActivity
     addInfiniteScrolling(linearLayoutManager);  // infinite scrolling
 
     loadEventData(0);
+  }
+
+  private void setDrawerTheme() {
+    if(User.isLoggedIn()){
+      if(QZinApplication.isHostView){
+        navView.setBackgroundColor(getResources().getColor(R.color.colorGray));
+        navView.setItemIconTintList(getResources().getColorStateList(R.color.white));
+        navView.setItemTextColor(getResources().getColorStateList(R.color.white));
+      }
+    }
   }
 
   // Swipe Refresh
@@ -181,6 +197,9 @@ public class MainActivity extends BaseActivity
     }else if(id == R.id.nav_registered_events){
       Intent intent = new Intent(MainActivity.this, RegisteredEventsActivity.class);
       startActivity(intent);
+    }else if(id == R.id.nav_switch){
+      QZinUtil.changeTheme(this);
+      return false;
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -191,24 +210,31 @@ public class MainActivity extends BaseActivity
 
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
+    Menu menuNav = navView.getMenu();
 
-   setLoginLogoutOptionInNavMenu();
+    // switch to hosting text
+    MenuItem switchAccount = menuNav.findItem(R.id.nav_switch);
+    if(QZinApplication.isHostView){
+      switchAccount.setTitle(R.string.switch_to_search);
+    }else{
+      switchAccount.setTitle(R.string.switch_to_hosting);
+    }
+
+    //hide show
+    menuNav.findItem(R.id.nav_host_event).setVisible(QZinApplication.isHostView);   // On Login & HostView only
+    menuNav.findItem(R.id.nav_hosted_events).setVisible(QZinApplication.isHostView);// On Login & HostView only
+    menuNav.findItem(R.id.nav_registered_events).setVisible(User.isLoggedIn() && !QZinApplication.isHostView); // On Login only
+    switchAccount.setVisible(User.isLoggedIn());                                    // On Login only
+    menuNav.findItem(R.id.nav_logout).setVisible(User.isLoggedIn());                // On Login only
+    menuNav.findItem(R.id.nav_login).setVisible(!User.isLoggedIn());                // Before login
+
+
     return true;
   }
 
 
-  // if user already registered and logged in show Logout option in navigation menu
-  // if user not logged in show Login option in navigation menu
-  public void setLoginLogoutOptionInNavMenu()
-  {
-    NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
-    Menu menuNav = navView.getMenu();
-    MenuItem login = menuNav.findItem(R.id.nav_login);
-    MenuItem logout = menuNav.findItem(R.id.nav_logout);
 
-    login.setVisible(!User.isLoggedIn());
-    logout.setVisible(User.isLoggedIn());
-  }
+
 
 
   // Read data from Event parse object

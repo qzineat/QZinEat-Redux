@@ -14,7 +14,7 @@
     <string name="btnSignUp">Sign Up</string>
     <string name="facebook_app_id">1761047824221554</string>
     <string name="btnLoginFacebook">Log In with Facebook</string>
-    <string name="signUpText"><u>Sign Up</u> for QzinEat</string>
+    <string name="signUpText"><u>Sign up</u> with QzinEat</string>
 
     <string name="etPhone">(xxx)xxx-xxxx</string>
 
@@ -51,4 +51,6 @@
     <string name="navMyEvents">My Events</string>
     <string name="navLogin">Login</string>
     <string name="navLogout">Logout</string>
+    <string name="switch_to_search">Switch to Searching</string>
+    <string name="switch_to_hosting">Switch to Hosting</string>
 </resources>
