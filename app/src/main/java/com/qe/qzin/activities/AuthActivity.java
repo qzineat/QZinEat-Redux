@@ -12,13 +12,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.qe.qzin.R;
 
+import com.qe.qzin.models.User;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,18 +137,17 @@ public class AuthActivity extends AppCompatActivity {
 
             if(user == null) {
               Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-            }else if(user.isNew()){
+            }else{
+              //if(user.isNew()){
+                // TODO: will add notification for first time user
+                saveFacebookUserDetails((User) user);
+              //}
+
               Intent i = new Intent(AuthActivity.this, MainActivity.class);
               startActivity(i);
               finish();
-              Log.d("MyApp", "User signed up and logged in through Facebook!");
-            }else
-            {
-              Intent i = new Intent(AuthActivity.this, MainActivity.class);
-              startActivity(i);
-              finish();
-              Toast.makeText(AuthActivity.this,"Logged In", Toast.LENGTH_SHORT).show();
               Log.d("MyApp", "User logged in through Facebook!");
+
             }
 
         }
@@ -148,6 +155,31 @@ public class AuthActivity extends AppCompatActivity {
       });
     }
   };
+
+  private void saveFacebookUserDetails(final User user){
+
+
+
+    GraphRequest request = GraphRequest.newMeRequest(
+            AccessToken.getCurrentAccessToken(),
+            new GraphRequest.GraphJSONObjectCallback() {
+              @Override
+              public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                  user.setEmail(object.getString("email"));
+                  user.setFirstName(object.getString("first_name"));
+                  user.saveInBackground();
+
+                } catch (JSONException e) {
+                  e.printStackTrace();
+                }
+              }
+            });
+    Bundle parameters = new Bundle();
+    parameters.putString("fields", "id,name,email,first_name,last_name");
+    request.setParameters(parameters);
+    request.executeAsync();
+  }
 
   @Override
   protected void attachBaseContext(Context newBase) {

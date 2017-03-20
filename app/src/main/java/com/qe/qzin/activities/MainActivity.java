@@ -83,13 +83,7 @@ public class MainActivity extends BaseActivity
       tvNavHeaderUserName = (TextView) navHeaderView.findViewById(R.id.textViewHeaderName);
       ivProfileEdit = (ImageView)  navHeaderView.findViewById(R.id.ivProfileEdit);
 
-      User u = (User) User.getCurrentUser();
-
-      if(u.getFirstName() != null){
-        tvNavHeaderUserName.setText(u.getFirstName());
-      }else{
-        tvNavHeaderUserName.setText(u.getUsername());
-      }
+      setUserDetails();
 
       ivProfileEdit.setVisibility(View.VISIBLE);
       // Edit Profile
@@ -183,6 +177,8 @@ public class MainActivity extends BaseActivity
       startActivity(intentLoginSignup);
       //finish();
     } else if (id == R.id.nav_logout){
+      // Set Application variables
+      QZinApplication.isHostView = !QZinApplication.isHostView;
       // current user log out and navigate to events Stream.
       ParseUser.logOut();
       Intent refresh = new Intent(this, MainActivity.class);
@@ -274,5 +270,24 @@ public class MainActivity extends BaseActivity
     Intent intent = new Intent(this, EventDetailActivity.class);
     intent.putExtra("eventObjectId", event.getObjectId());
     startActivity(intent);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    setUserDetails();
+  }
+
+  private void setUserDetails(){
+    if(User.getCurrentUser() != null){
+      User u = (User) User.getCurrentUser();
+
+      if(u.getFirstName() != null){
+        tvNavHeaderUserName.setText(u.getFirstName());
+      }else{
+        tvNavHeaderUserName.setText(u.getEmail());
+      }
+    }
   }
 }
