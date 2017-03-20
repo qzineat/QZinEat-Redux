@@ -1,5 +1,6 @@
 package com.qe.qzin.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -66,7 +67,10 @@ public class EventDetailActivity extends BaseActivity {
   private View.OnClickListener mloginClickListener = new View.OnClickListener() {
     @Override
     public void onClick(View view) {
-      Toast.makeText(EventDetailActivity.this, "Implement Me!!", Toast.LENGTH_SHORT).show();
+      // on login click call Auth acivity
+      Intent intentLoginSignup = new Intent(EventDetailActivity.this, AuthActivity.class);
+      startActivity(intentLoginSignup);
+      finish();
     }
   };
 

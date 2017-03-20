@@ -21,4 +21,10 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <!--<style name="HostTheme" parent="AppTheme">-->
+        <!--<item name="material_drawer_background">#303030</item>-->
+        <!--<item name="material_drawer_primary_text">#DEFFFFFF</item>-->
+        <!--<item name="material_drawer_primary_icon">#8AFFFFFF</item>-->
+    <!--</style>-->
 </resources>
