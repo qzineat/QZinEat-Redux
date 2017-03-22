@@ -24,6 +24,8 @@ import com.qe.qzin.models.User;
 import com.qe.qzin.util.DateTimeUtils;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -87,13 +89,13 @@ public class EventDetailActivity extends BaseActivity {
       }
 
       // check for host user.. - if I am host and trying to reserve then message him.
-      if(mEvent.getHostUser() == User.getCurrentUser()){
-        // TODO: Implement This
-        Toast.makeText(EventDetailActivity.this, "Host user Registering!!! We have to fix this!!", Toast.LENGTH_LONG).show();
+      if(Objects.equals(mEvent.getHostUser().getObjectId(), User.getCurrentUser().getObjectId())){
+        Snackbar.make(view, "You are host for this event!!", Snackbar.LENGTH_LONG).show();
+        return;
       }
 
       // Reserve Event
-      reserveEvent();
+      reserveEvent(view);
     }
   };
 
@@ -144,11 +146,27 @@ public class EventDetailActivity extends BaseActivity {
 
   // Enroll user for an event.
   // TODO: Allow user to enter the guest count.
-  private void reserveEvent(){
+  private void reserveEvent(View view){
+    // Check if event is full
+    int guestCount = 1;
+    if(mEvent.getEnrolledGuestCount() >= mEvent.getMaxGuestCount()){
+      Snackbar.make(view, "Sorry!! Event is full...", Snackbar.LENGTH_LONG).show();
+      return;
+    }else{
+      int afterEnrollCount = mEvent.getEnrolledGuestCount() + guestCount;
+      if(afterEnrollCount > mEvent.getMaxGuestCount()){
+        int remainingSeats = mEvent.getMaxGuestCount() - mEvent.getEnrolledGuestCount();
+        Snackbar.make(view, String.format("Only %d seats remaining!", remainingSeats), Snackbar.LENGTH_LONG).show();
+        return;
+      }
+    }
+
+    // TODO: Check if user already registered for an Event
+
     Enrollment en = new Enrollment();
     en.setEnrollUser((User) User.getCurrentUser());
     en.setEvent(mEvent);
-    en.setGuestCount(1);
+    en.setGuestCount(guestCount);
 
     // save entry in Enrollment
     en.saveInBackground(new SaveCallback() {
@@ -164,7 +182,7 @@ public class EventDetailActivity extends BaseActivity {
     });
 
     // update enrolled guest count
-    mEvent.setEnrolledGuestCount(mEvent.getEnrolledGuestCount() + 1);
+    mEvent.setEnrolledGuestCount(mEvent.getEnrolledGuestCount() + guestCount);
     mEvent.saveInBackground(new SaveCallback() {
       @Override
       public void done(ParseException e) {
