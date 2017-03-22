@@ -264,10 +264,6 @@ public class EventDetailActivity extends BaseActivity {
         if(event.getHostUser() != null){
           if(event.getHostUser().getFirstName() != null){
             tvHostName.setText(event.getHostUser().getFirstName());
-          }else{
-            // extract username only from email
-            int index = event.getHostUser().getUsername().indexOf('@');
-            tvHostName.setText(event.getHostUser().getUsername().substring(0, index));
           }
 
         }
