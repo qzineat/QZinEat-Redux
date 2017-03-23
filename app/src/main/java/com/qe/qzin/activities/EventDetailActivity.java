@@ -43,6 +43,8 @@ public class EventDetailActivity extends BaseActivity {
   @BindView(R.id.tvCityStateZip) TextView tvCityStateZip;
   @BindView(R.id.tvEventDescription) TextView tvEventDescription;
   @BindView(R.id.tvHostName) TextView tvHostName;
+  @BindView(R.id.tvWhats) TextView tvWhats;
+  @BindView(R.id.tvMenu) TextView tvMenu;
   @BindView(R.id.btnReserve) Button btnReserve;
 
   private String eventObjectId;
@@ -266,6 +268,13 @@ public class EventDetailActivity extends BaseActivity {
             tvHostName.setText(event.getHostUser().getFirstName());
           }
 
+        }
+
+        // Menu
+        if(event.getEventMenu() != null){
+          tvMenu.setText(event.getEventMenu());
+        }else{
+          tvMenu.setText(R.string.no_menu);
         }
 
         if(event.getEventImageUrl() == null){
