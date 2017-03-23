@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class EventDetailActivity extends BaseActivity {
   @BindView(R.id.tvWhats) TextView tvWhats;
   @BindView(R.id.tvMenu) TextView tvMenu;
   @BindView(R.id.btnReserve) Button btnReserve;
+  @BindView(R.id.progressBar) ProgressBar progressBar;
 
   private String eventObjectId;
   private Event mEvent;
@@ -97,54 +99,12 @@ public class EventDetailActivity extends BaseActivity {
       }
 
       // Reserve Event
+      btnReserve.setEnabled(false);
       reserveEvent(view);
     }
   };
 
-  private void isReserved(){
 
-    // user enrollment for an event
-    /*try {
-      //if max guest count reached or current user is null (user has not logged in) then do not show Reserve option
-      if(User.getCurrentUser() == null || event.getEnrolledGuestCount() == event.getMaxGuestCount()){
-        viewHolder.btnReserve.setEnabled(false);
-
-      }else {
-        // user is logged in then check if user has not already enrolled for the event
-
-        ParseQuery<Enrollment> query = ParseQuery.getQuery("Enrollment");
-        query.whereEqualTo(Enrollment.KEY_USER_ID, ParseUser.getCurrentUser())
-            .whereEqualTo(Enrollment.KEY_EVENT_ID, event.getObjectId());
-
-        // user has not already enrolled for the event, then allow user to Enroll for an event
-        if (query.count() == 0 && (event.getEnrolledGuestCount() < event.getMaxGuestCount())) {
-
-          viewHolder.btnReserve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-              if (mContext instanceof MainActivity) {
-                OnUserEnrollmentListener listener = (OnUserEnrollmentListener) mContext;
-                listener.onUserEnrollment(event);
-
-                viewHolder.btnReserve.setEnabled(false);
-                viewHolder.btnReserve.setText("Reserved");
-                viewHolder.btnReserve.setTextColor(Color.GREEN);
-              }
-            }
-          });
-
-        }else {
-          // user has already enrolled
-          viewHolder.btnReserve.setEnabled(false);
-          viewHolder.btnReserve.setText("Reserved");
-          viewHolder.btnReserve.setTextColor(Color.GREEN);
-        }
-      }
-    }catch (ParseException e){
-      e.printStackTrace();
-    }*/
-  }
 
   // Enroll user for an event.
   // TODO: Allow user to enter the guest count.
@@ -159,11 +119,14 @@ public class EventDetailActivity extends BaseActivity {
       if(afterEnrollCount > mEvent.getMaxGuestCount()){
         int remainingSeats = mEvent.getMaxGuestCount() - mEvent.getEnrolledGuestCount();
         Snackbar.make(view, String.format("Only %d seats remaining!", remainingSeats), Snackbar.LENGTH_LONG).show();
+        btnReserve.setEnabled(true);
         return;
       }
     }
 
     // TODO: Check if user already registered for an Event
+    showProgressBar();
+
 
     Enrollment en = new Enrollment();
     en.setEnrollUser((User) User.getCurrentUser());
@@ -174,12 +137,15 @@ public class EventDetailActivity extends BaseActivity {
     en.saveInBackground(new SaveCallback() {
       @Override
       public void done(ParseException e) {
+        hideProgressBar();
         if (e != null) {
           Log.d("DEBUG", e.getMessage());
+          btnReserve.setEnabled(true);
           return;
         }
 
         Toast.makeText(EventDetailActivity.this, "Thanks!!", Toast.LENGTH_SHORT).show();
+        btnReserve.setVisibility(View.INVISIBLE);
       }
     });
 
@@ -230,13 +196,26 @@ public class EventDetailActivity extends BaseActivity {
     });
   }
 
+  private void showProgressBar(){
+    progressBar.setVisibility(View.VISIBLE);
+  }
+
+  private void hideProgressBar(){
+    progressBar.setVisibility(View.INVISIBLE);
+  }
+
   private void loadEvent(String eventObjectId){
+    // progress bar
+    showProgressBar();
+
     ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
     // Include the post data with each comment
     query.include(Event.KEY_HOST_USER);
     query.getInBackground(eventObjectId, new GetCallback<Event>() {
       @Override
       public void done(Event event, ParseException e) {
+        hideProgressBar();
+
         if(e != null){
           return;
         }
