@@ -259,7 +259,7 @@ public class EventDetailActivity extends BaseActivity {
         if(event.getEventMenu() != null){
           tvMenu.setText(event.getEventMenu());
         }else{
-          tvMenu.setText(R.string.no_menu);
+          tvMenu.setText(getString(R.string.coming_soon));
         }
 
         if(event.getEventImageUrl() == null){

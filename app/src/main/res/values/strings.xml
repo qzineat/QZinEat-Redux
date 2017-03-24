@@ -54,5 +54,5 @@
     <string name="navLogout">Logout</string>
     <string name="switch_to_search">Switch to Searching</string>
     <string name="switch_to_hosting">Switch to Hosting</string>
-    <string name="no_menu">Coming soon…</string>
+    <string name="coming_soon">Coming soon…</string>
 </resources>
