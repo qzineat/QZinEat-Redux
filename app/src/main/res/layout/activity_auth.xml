@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_splash"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -134,23 +133,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         />
 
-    <!--  <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnSignup"
-            android:text="@string/btnSignUp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:typeface="monospace"
-            android:background="@drawable/roundshape_btn"
-            android:backgroundTint="@color/light_blue"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"/>
-
-            -->
 
 
 </RelativeLayout>

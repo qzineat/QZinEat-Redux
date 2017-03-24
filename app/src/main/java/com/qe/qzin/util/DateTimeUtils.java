@@ -35,6 +35,10 @@ public class DateTimeUtils {
 
   public static String formatHourInAmPm(String time){
 
+    if(time == null || time.isEmpty()){
+      return "";
+    }
+
     String ampm;
 
     String[] values = time.split(":");

@@ -36,15 +36,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.qe.qzin.R.id.nav_view;
-
 public class MainActivity extends BaseActivity
     implements NavigationView.OnNavigationItemSelectedListener, OnEventClickListener
 {
 
-  private  List<Event> events;
+  private List<Event> events;
   private EventsAdapter eventsAdapter;
   private EndlessRecyclerViewScrollListener scrollListener;
+  private static final int DISPLAY_LIMIT = 5;
 
   @BindView(R.id.rvEvents) RecyclerView rvEvents;
   @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
@@ -178,7 +177,9 @@ public class MainActivity extends BaseActivity
       //finish();
     } else if (id == R.id.nav_logout){
       // Set Application variables
-      QZinApplication.isHostView = !QZinApplication.isHostView;
+      if(QZinApplication.isHostView){
+        QZinApplication.isHostView = !QZinApplication.isHostView;
+      }
       // current user log out and navigate to events Stream.
       ParseUser.logOut();
       Intent refresh = new Intent(this, MainActivity.class);
@@ -240,10 +241,9 @@ public class MainActivity extends BaseActivity
 
     progressBar.setVisibility(View.VISIBLE);
 
-    int displayLimit = 5;
     ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-    query.setLimit(displayLimit);
-    query.setSkip(offset * displayLimit);
+    query.setLimit(DISPLAY_LIMIT);
+    query.setSkip(offset * DISPLAY_LIMIT);
 
     query.findInBackground(new FindCallback<Event>() {
       @Override
@@ -266,8 +266,11 @@ public class MainActivity extends BaseActivity
     Event event = eventsAdapter.getEventAtPosition(position);
     //Toast.makeText(this, "Title - " + event.getTitle(), Toast.LENGTH_SHORT).show();
 
+    //ParseProxyObject proxyEvent = new ParseProxyObject(event);
+
     // Call Detail Event Activity
     Intent intent = new Intent(this, EventDetailActivity.class);
+    //intent.putExtra("proxyEvent", proxyEvent);
     intent.putExtra("eventObjectId", event.getObjectId());
     startActivity(intent);
   }

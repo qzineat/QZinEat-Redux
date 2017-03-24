@@ -35,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class AuthActivity extends AppCompatActivity {
+public class AuthActivity extends BaseActivity {
 
   @BindView(R.id.etUserName) EditText etUserName;
   @BindView(R.id.etPassword) EditText etPassword;
@@ -179,10 +179,5 @@ public class AuthActivity extends AppCompatActivity {
     parameters.putString("fields", "id,name,email,first_name,last_name");
     request.setParameters(parameters);
     request.executeAsync();
-  }
-
-  @Override
-  protected void attachBaseContext(Context newBase) {
-    super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
   }
 }

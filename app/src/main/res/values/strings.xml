@@ -30,6 +30,7 @@
     <string name="hintTimeTo">Time To</string>
     <string name="hintGuestCount">Guest Count</string>
     <string name="hintFirstName">First Name</string>
+    <string name="hintMenu">Menu</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_event">Add Event</string>
@@ -53,4 +54,5 @@
     <string name="navLogout">Logout</string>
     <string name="switch_to_search">Switch to Searching</string>
     <string name="switch_to_hosting">Switch to Hosting</string>
+    <string name="coming_soon">Coming soon…</string>
 </resources>
