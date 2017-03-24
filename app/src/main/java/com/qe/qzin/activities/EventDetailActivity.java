@@ -56,8 +56,14 @@ public class EventDetailActivity extends BaseActivity {
 
     setCollapsingToolbar();
 
+    Intent i = getIntent();
+    // Check New
+    /*ParseProxyObject proxyEvent = (ParseProxyObject) i.getSerializableExtra("proxyEvent");
+    if(proxyEvent!=null){
+      Log.d("DEBUG", "Event - ");
+    }*/
     // Get EventId and load
-    eventObjectId = getIntent().getExtras().getString("eventObjectId");
+    eventObjectId = i.getExtras().getString("eventObjectId");
     loadEvent(eventObjectId);
 
     // Reserve
