@@ -76,7 +76,7 @@ public class HostActivity extends BaseActivity implements DatePickerDialog.OnDat
     ButterKnife.bind(this);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    toolbar.setTitle("Event");
+    toolbar.setTitle("Host Event");
 
     setSupportActionBar(toolbar);
 
