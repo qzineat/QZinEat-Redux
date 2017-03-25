@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         app:counterEnabled="true"
         app:counterMaxLength="50"
-        android:paddingBottom="16dp">
+        android:paddingBottom="10dp">
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
@@ -31,16 +31,15 @@
             android:maxLength="50"
             android:maxLines="1"
             android:lines="1"
-            android:textSize="24sp"
-            android:typeface="monospace"
-            fontPath="fonts/Roboto-Regular.ttf"
+            android:textSize="32sp"
+            fontPath="fonts/RobotoCondensed-Regular.ttf"
             />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
+        android:paddingBottom="10dp"
         app:counterEnabled="true"
         app:counterMaxLength="200">
         <android.support.design.widget.TextInputEditText
@@ -52,10 +51,8 @@
             android:lines="3"
             android:gravity="top"
             android:maxLines="3"
-            android:typeface="monospace"
-            fontPath="fonts/Roboto-Regular.ttf"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"/>
+            fontPath="fonts/RobotoCondensed-Regular.ttf"
+           />
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
@@ -78,8 +75,8 @@
                 android:lines="1"
                 android:maxLength="5"
                 android:inputType="numberDecimal"
-                android:typeface="monospace"
-                fontPath="fonts/Roboto-Regular.ttf"
+                fontPath="fonts/RobotoCondensed-Regular.ttf"
+
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -97,8 +94,7 @@
                 android:lines="1"
                 android:maxLength="3"
                 android:inputType="number"
-                android:typeface="monospace"
-                fontPath="fonts/Roboto-Regular.ttf"
+                fontPath="fonts/RobotoCondensed-Regular.ttf"
                 />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
@@ -108,7 +104,8 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etEventDate"
@@ -117,14 +114,16 @@
             android:hint="@string/hintEventDate"
             android:inputType="date"
             android:focusable="false"
-            android:focusableInTouchMode="false"/>
+            android:focusableInTouchMode="false"
+            fontPath="fonts/RobotoCondensed-Regular.ttf"/>
     </android.support.design.widget.TextInputLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="16dp">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
@@ -139,7 +138,8 @@
                 android:hint="@string/hintTimeFrom"
                 android:inputType="time"
                 android:focusable="false"
-                android:focusableInTouchMode="false"/>
+                android:focusableInTouchMode="false"
+                fontPath="fonts/RobotoCondensed-Regular.ttf"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -155,54 +155,64 @@
                 android:hint="@string/hintTimeTo"
                 android:inputType="time"
                 android:focusable="false"
-                android:focusableInTouchMode="false"/>
+                android:focusableInTouchMode="false"
+                fontPath="fonts/RobotoCondensed-Regular.ttf"/>
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etStreet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hintStreet"/>
+            android:hint="@string/hintStreet"
+            fontPath="fonts/RobotoCondensed-Regular.ttf"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hintCity"/>
+            android:hint="@string/hintCity"
+            fontPath="fonts/RobotoCondensed-Regular.ttf"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etState"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hintState"/>
+            android:hint="@string/hintState"
+            fontPath="fonts/RobotoCondensed-Regular.ttf"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etCountry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hintCountry"/>
+            android:hint="@string/hintCountry"
+            fontPath="fonts/RobotoCondensed-Regular.ttf"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etMenu"
             android:layout_width="match_parent"
@@ -211,7 +221,8 @@
             android:inputType="textMultiLine"
             android:lines="4"
             android:gravity="top"
-            android:maxLines="4"/>
+            android:maxLines="4"
+            fontPath="fonts/RobotoCondensed-Regular.ttf"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
