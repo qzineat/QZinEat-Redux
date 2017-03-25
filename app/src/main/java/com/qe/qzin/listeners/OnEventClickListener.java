@@ -6,4 +6,5 @@ package com.qe.qzin.listeners;
 
 public interface OnEventClickListener {
   public void onEventClickListener(int position);
+  void onShareClickListener(int position);
 }

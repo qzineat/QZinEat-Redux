@@ -2,7 +2,10 @@ package com.qe.qzin.adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +81,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
   public void onBindViewHolder(final ViewHolder viewHolder, int position) {
 
     final Event event = mEvents.get(position);
+    final int p = position;
 
     // populate the values from above event item
     if (event.getEventImageUrl() == null) {
@@ -127,6 +131,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     if (event.getDate() != null) {
       viewHolder.tvEventDate.setText(DateTimeUtils.formatDate(event.getDate()));
     }
+
+    viewHolder.ivShare.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        ((OnEventClickListener) mContext).onShareClickListener(p);
+      }
+    });
 
   }
 

@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -273,6 +274,17 @@ public class MainActivity extends BaseActivity
     //intent.putExtra("proxyEvent", proxyEvent);
     intent.putExtra("eventObjectId", event.getObjectId());
     startActivity(intent);
+  }
+
+  @Override
+  public void onShareClickListener(int position) {
+
+    Event event = eventsAdapter.getEventAtPosition(position);
+
+    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+    sharingIntent.setType("text/html");
+    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Check out this event on QzinEat: " + event.getTitle());
+    startActivity(Intent.createChooser(sharingIntent, "Share using"));
   }
 
   @Override
