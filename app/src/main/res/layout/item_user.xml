@@ -8,6 +8,7 @@
     android:layout_marginEnd="16dp"
     android:paddingTop="4dp"
     android:paddingBottom="4dp"
+    tools:ignore="MissingPrefix"
     >
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -20,17 +21,25 @@
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:layout_marginStart="16dp"
         android:lines="1"
         android:ellipsize="end"
-        tools:text="Nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        tools:text="Nameeeeeeeeeeeeeee"
         fontPath="fonts/Roboto-Medium.ttf"
         android:textSize="18sp"
-        tools:ignore="MissingPrefix"
         android:layout_centerVertical="true"
         />
+    <TextView
+        android:id="@+id/tvCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        fontPath="fonts/Roboto-Regular.ttf"
+        tools:text="Fremont"/>
 
 </RelativeLayout>
