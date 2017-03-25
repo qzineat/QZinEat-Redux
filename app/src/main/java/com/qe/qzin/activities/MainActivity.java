@@ -36,8 +36,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.qe.qzin.R.id.nav_view;
-
 public class MainActivity extends BaseActivity
     implements NavigationView.OnNavigationItemSelectedListener, OnEventClickListener
 {
@@ -268,8 +266,11 @@ public class MainActivity extends BaseActivity
     Event event = eventsAdapter.getEventAtPosition(position);
     //Toast.makeText(this, "Title - " + event.getTitle(), Toast.LENGTH_SHORT).show();
 
+    //ParseProxyObject proxyEvent = new ParseProxyObject(event);
+
     // Call Detail Event Activity
     Intent intent = new Intent(this, EventDetailActivity.class);
+    //intent.putExtra("proxyEvent", proxyEvent);
     intent.putExtra("eventObjectId", event.getObjectId());
     startActivity(intent);
   }

@@ -62,8 +62,14 @@ public class EventDetailActivity extends BaseActivity {
 
     setCollapsingToolbar();
 
+    Intent i = getIntent();
+    // Check New
+    /*ParseProxyObject proxyEvent = (ParseProxyObject) i.getSerializableExtra("proxyEvent");
+    if(proxyEvent!=null){
+      Log.d("DEBUG", "Event - ");
+    }*/
     // Get EventId and load
-    eventObjectId = getIntent().getExtras().getString("eventObjectId");
+    eventObjectId = i.getExtras().getString("eventObjectId");
     loadEvent(eventObjectId);
 
     // Reserve
@@ -253,7 +259,7 @@ public class EventDetailActivity extends BaseActivity {
         if(event.getEventMenu() != null){
           tvMenu.setText(event.getEventMenu());
         }else{
-          tvMenu.setText(R.string.no_menu);
+          tvMenu.setText(getString(R.string.coming_soon));
         }
 
         if(event.getEventImageUrl() == null){
