@@ -308,4 +308,9 @@ public class HostedEventsActivity extends BaseActivity implements OnEventRemoveL
     intent.putExtra("eventTitle", event.getTitle());
     startActivity(intent);
   }
+
+  @Override
+  public void onShareClickListener(int position) {
+
+  }
 }
