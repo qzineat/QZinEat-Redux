@@ -73,6 +73,13 @@ public class QZinApplication extends Application {
         .server("https://qzin.herokuapp.com/parse/")
         .build());
 
+    /*Parse.initialize(new Parse.Configuration.Builder(this)
+            .applicationId("myAppId")
+            .clientKey("myMasterKey")
+            .addNetworkInterceptor(new ParseLogInterceptor())
+            .server("http://WM-C02RQ2P1G8WM:1337/parse/")
+            .build());*/
+
     // ParseFacebookUtils should initialize the Facebook SDK
     ParseFacebookUtils.initialize(this);
 
