@@ -281,10 +281,26 @@ public class MainActivity extends BaseActivity
 
     Event event = eventsAdapter.getEventAtPosition(position);
 
-    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-    sharingIntent.setType("text/html");
-    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Check out this event on QzinEat: " + event.getTitle());
-    startActivity(Intent.createChooser(sharingIntent, "Share using"));
+
+
+
+    try {
+      Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+      sharingIntent.setType("text/html");
+      sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "QZinEat");
+
+      StringBuilder sb = new StringBuilder();
+      sb.append("\nLet me recommend you this food event on QZinEat: '"+event.getTitle()+"'\n");
+      sb.append("You can also download this cool app: QZinEat \n\n");
+      //sb.append("https://play.google.com/store/apps/details?id=Orion.Soft \n\n");
+
+      sharingIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+
+      startActivity(Intent.createChooser(sharingIntent, "Share using"));
+    } catch(Exception e) {
+
+    }
+
   }
 
   @Override
