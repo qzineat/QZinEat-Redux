@@ -9,6 +9,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,7 +37,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     @BindView(R.id.tvLocality) TextView tvLocality;
     @BindView(R.id.tvEventDate) TextView tvEventDate;
     @BindView(R.id.tvEventDescription) TextView tvEventDescription;
-    @BindView(R.id.ivShare) ImageView ivShare;
+    @BindView(R.id.ivShare) ImageButton ivShare;
     @BindView(R.id.tvPrice) TextView tvPrice;
 
 
