@@ -105,14 +105,15 @@
             android:layout_toStartOf="@+id/ivShare"
             android:visibility="invisible"/>
 
-        <ImageView
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/share"
             android:id="@+id/ivShare"
             android:tint="@color/colorGrayIcon"
             android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:background="@null"/>
 
         <TextView
             android:id="@+id/tvPrice"
