@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -114,9 +115,9 @@ public class EventDetailActivity extends BaseActivity {
 
   // Enroll user for an event.
   // TODO: Allow user to enter the guest count.
-  private void reserveEvent(View view){
+  private void reserveEvent(final View view){
     // Check if event is full
-    int guestCount = 1;
+    final int guestCount = 1;
     if(mEvent.getEnrolledGuestCount() >= mEvent.getMaxGuestCount()){
       Snackbar.make(view, "Sorry!! Event is full...", Snackbar.LENGTH_LONG).show();
       return;
@@ -130,39 +131,54 @@ public class EventDetailActivity extends BaseActivity {
       }
     }
 
-    // TODO: Check if user already registered for an Event
     showProgressBar();
 
-
-    Enrollment en = new Enrollment();
-    en.setEnrollUser((User) User.getCurrentUser());
-    en.setEvent(mEvent);
-    en.setGuestCount(guestCount);
-
-    // save entry in Enrollment
-    en.saveInBackground(new SaveCallback() {
+    ParseQuery<Enrollment> query = ParseQuery.getQuery(Enrollment.class);
+    query.whereEqualTo(Enrollment.KEY_USER, User.getCurrentUser());
+    query.whereEqualTo(Enrollment.KEY_EVENT, mEvent);
+    query.countInBackground(new CountCallback() {
       @Override
-      public void done(ParseException e) {
-        hideProgressBar();
-        if (e != null) {
-          Log.d("DEBUG", e.getMessage());
-          btnReserve.setEnabled(true);
+      public void done(int count, ParseException e) {
+        if(e != null){
+          hideProgressBar();
           return;
         }
 
-        Toast.makeText(EventDetailActivity.this, "Thanks!!", Toast.LENGTH_SHORT).show();
-        btnReserve.setVisibility(View.INVISIBLE);
+        if(count > 0){
+          hideProgressBar();
+          Snackbar.make(view, "Already enrolled for this event!", Snackbar.LENGTH_LONG).show();
+        }else{
+          Enrollment en = new Enrollment();
+          en.setEnrollUser((User) User.getCurrentUser());
+          en.setEvent(mEvent);
+          en.setGuestCount(guestCount);
+          // save entry in Enrollment
+          en.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+              hideProgressBar();
+              if (e != null) {
+                Log.d("DEBUG", e.getMessage());
+                btnReserve.setEnabled(true);
+                return;
+              }
+              Snackbar.make(view, "Successfully enrolled for this event!!", Snackbar.LENGTH_LONG).show();
+              btnReserve.setVisibility(View.INVISIBLE);
+
+              // update enrolled guest count
+              mEvent.setEnrolledGuestCount(mEvent.getEnrolledGuestCount() + guestCount);
+              mEvent.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                  Log.d("DEBUG", "Updated event table.");
+                }
+              });
+            }
+          });
+        }
       }
     });
 
-    // update enrolled guest count
-    mEvent.setEnrolledGuestCount(mEvent.getEnrolledGuestCount() + guestCount);
-    mEvent.saveInBackground(new SaveCallback() {
-      @Override
-      public void done(ParseException e) {
-        Log.d("DEBUG", "User enrolled for an event");
-      }
-    });
   }
 
   private void setCollapsingToolbar(){

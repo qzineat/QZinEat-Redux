@@ -95,8 +95,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
       Picasso.with(mContext)
           .load(event.getEventImageUrl())
           .fit()
-          .placeholder(R.drawable.ev_image)
-          .error(R.drawable.ev_image)
           .into(viewHolder.ivEvent);
     }
 
